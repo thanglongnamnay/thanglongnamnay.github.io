@@ -13,17 +13,17 @@ const inputs = {
 const averageSpan = document.getElementById('average-span');
 document.getElementById('start-function').onclick = start;
 document.getElementById('stop-function').onclick = stop;
-function drawChart() {
+function drawChart() { // not a good practice
     document.getElementById('chartContainer').style.height = '90vh';
     document.getElementById('watermark-notice').hidden = false;
     const chart = new CanvasJS.Chart('chartContainer', {
         animationEnabled: true,
         zoomEnabled: true,
         toolTip: {
-            enabled: false,
+            enabled: true,
         },
         title:{
-            text: 'Distribution chart with ' + DISTRIBUTE_INTERVAL + ' intervals'
+            text: `Distribution chart with ${DISTRIBUTE_INTERVAL} intervals`
         },
         data: [
             {
@@ -40,7 +40,7 @@ function drawChart() {
     });
     return chart;
 }
-function redrawChart(chart, distribution) {
+function redrawChart(chart, distribution) { // a better practice
     const sum = distribution.reduce((prev, curr) => prev + curr, 0);
     chart.options.data[0].dataPoints = distribution.map((value, index) => ({
         x: index / DISTRIBUTE_INTERVAL,
@@ -79,7 +79,7 @@ function stop() {
     worker2 = undefined;
     isWorking = false;
 }
-function flood() {
+function flood() { // do not invoke this function, test purpose only
     const flooders = [];
     for (let i = 0; i < 1024; ++i) {
         flooders.push(new Worker('flood.js'));
