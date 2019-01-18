@@ -1,0 +1,38 @@
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body {
+    font-family: Cousine, Consolas, Courier New, Courier, monospace;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #cbcbcb;
+    text-align: left;
+    padding: 8px;
+}
+
+input {
+    font-family: Cousine, Consolas, Courier New, Courier, monospace;
+}
+
+button {
+    padding: 6px 12px;
+    background: #fff;
+    color: #333;
+    font-size: 14px;
+    border: 1px solid #adadad;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e6e6e6;
+}

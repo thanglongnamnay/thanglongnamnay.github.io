@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linear congruential generator test</title>
+    <meta name="description"
+          content="An example of Web Worker doing heavy calculation without freezing user's browser. And check if your LCG algorithm is a Uniform distribution continuous.">
+    <link href="style.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="icon.png"/>
+</head>
+<body>
+    <div id="container">
+        <form name="uploadForm">
+            <h2>Linear congruential generator test</h2>
+            <img src="LCG.svg" alt="LCG relation"
+                 title="Actually, the return value is X/m to get a number between 0 and 1">
+            <p>
+                <label for="a-input">a = </label>
+                <input type="number" id="a-input" min="0" value="23">
+                <label for="c-input">c = </label>
+                <input type="number" id="c-input" min="0" value="0">
+            </p>
+            <p>
+                <label for="m-input">m = </label>
+                <input type="number" id="m-input" min="0" value="1000000007">
+                <label for="X0-input">X<sub>0</sub> = </label>
+                <input type="number" id="X0-input" min="0" value="69">
+            </p>
+            <p>
+                <button type="button" id="start-function"
+                        title="I can turn this to 'Stop it' so there's only one button, but i dont like it">Make
+                    it</button>
+                <button type="button" id="stop-function" title="get some help">Stop it,</button>
+            </p>
+        </form>
+        <div><span id="average-span"></span></div>
+        <div id="chartContainer" style="width: 100%;"></div>
+        <p id="watermark-notice" hidden>Watermark huh? So I could use something else, but Watermark is
+            not a bad thing.</p>
+        <!--<canvas id="myChart"></canvas>-->
+    </div>
+    <script src="canvasjs.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>-->
+    <script src="main.js"></script>
+</body>
+</html>
