@@ -3,12 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" type="image/png" href="icon.png"/>
 	<title>Thanglongnamnay</title>
 	<style>
 		body {
 			font-family: cousine, consolas, courier new, monospace;
 			background: #eeeeee;
-			padding-left: 50px;
+			padding: 50px;
 		}
 		h1 {
 			text-align: center;
@@ -20,12 +21,47 @@
 			text-decoration: none;
 			color: blue;
 		}
+		#fb-avatar {
+			position: relative;
+			left: calc(50% - 50px);
+			border-radius: 50%;
+		}
 	</style>
 </head>
 <body>
+	<a href="https://fb.com/tlsta"><img id="fb-avatar" alt="Facebook avatar" width="100" height="100"></a>
 	<h1>VVelcum boys</h1>
 	<p><a href="https://github.com/thanglongnamnay">Github</a> của mình, có mấy project nho nhỏ làm hồi đại học. Giờ mình vẫn đang học đại học :D</p>
 	<p><a href="https://cocangua.ml">Cờ cá ngựa</a>. Vào ngó tí nhé, không phải trang wiki đâu.</p>
 	<p><a href="LCGTest">LCGTest</a> - Một ví dụ cho việc sử dụng web worker để xử lý tính toán nặng nhọc nhưng mà UI vẫn nuột.</p>
+	<script>
+		let image = document.getElementById('fb-avatar');
+		fetch(`http://graph.facebook.com/100003406357473/picture?type=large`)
+			.then(res => {
+				const reader = res.body.getReader();
+				return new ReadableStream({
+				    start(controller) {
+				    	return pump();
+				    	function pump() {
+				    		return reader.read().then(({ done, value }) => {
+				    		// When no more data needs to be consumed, close the stream
+					    		if (done) {
+					     			controller.close();
+					    			return;
+					    		}
+					    		// Enqueue the next data chunk into our target stream
+					    		controller.enqueue(value);
+					    		return pump();
+					    	});
+					    }
+					}  
+				})
+			})
+			.then(stream => new Response(stream))
+			.then(response => response.blob())
+			.then(blob => URL.createObjectURL(blob))
+			.then(url => { image.src = url })
+			.catch(err => console.error(err));
+	</script>
 </body>
 </html>

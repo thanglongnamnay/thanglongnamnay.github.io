@@ -21,17 +21,18 @@ function average(fn) {
     }
     return sum / MAX;
 }
-function distribution(fn, size) {
-    const distro = new Array(size);
-    const post = function() {
-        self.postMessage({distribution: distro});
+function distribution(fn, distributionBuffer) {
+    const distro = new Uint32Array(distributionBuffer);
+    const size = distro.length;
+    const post = function(sum) {
+        self.postMessage(sum);
     };
     const postDelay = throttle(post, 100);
     for (let i = 0; i < size; ++i) distro[i] = 0;
     for (let i = 0; i < MAX; ++i) {
         const index = (fn() * size) >> 0;
         ++distro[index];
-        postDelay();
+        postDelay(i);
     }
     return distro.map(x => x / MAX);
 }
@@ -49,7 +50,7 @@ self.onmessage = e => {
             average(fn);
             break;
         case 'distribution':
-            distribution(fn, e.data.parts);
+            distribution(fn, e.data.distributionBuffer);
             break;
     }
 };

@@ -13,17 +13,17 @@ const inputs = {
 const averageSpan = document.getElementById('average-span');
 document.getElementById('start-function').onclick = start;
 document.getElementById('stop-function').onclick = stop;
-function drawChart() { // not a good practice
+function drawChart() {
     document.getElementById('chartContainer').style.height = '90vh';
     document.getElementById('watermark-notice').hidden = false;
     const chart = new CanvasJS.Chart('chartContainer', {
         animationEnabled: true,
         zoomEnabled: true,
         toolTip: {
-            enabled: true,
+            enabled: false,
         },
         title:{
-            text: `Distribution chart with ${DISTRIBUTE_INTERVAL} intervals`
+            text: 'Distribution chart with ' + DISTRIBUTE_INTERVAL + ' intervals'
         },
         data: [
             {
@@ -40,12 +40,24 @@ function drawChart() { // not a good practice
     });
     return chart;
 }
-function redrawChart(chart, distribution) { // a better practice
-    const sum = distribution.reduce((prev, curr) => prev + curr, 0);
-    chart.options.data[0].dataPoints = distribution.map((value, index) => ({
-        x: index / DISTRIBUTE_INTERVAL,
-        y: value / sum
-    }));
+function redrawChart(chart, distribution, sum) {
+    // chart.options.data[0].dataPoints = [...distribution].map((value, index) => ({
+    //     x: index / DISTRIBUTE_INTERVAL,
+    //     y: value / sum
+    // }));
+    let dataPoints = [];
+    for (let i = 0; i < distribution.length; ++i) {
+        dataPoints[i] = {
+            x: i / DISTRIBUTE_INTERVAL,
+            y: distribution[i] / sum
+        }
+    }
+    chart.options.data[0].dataPoints = dataPoints;
+    // const test = distribution.map((value, index) => ({
+    //     x: index / DISTRIBUTE_INTERVAL,
+    //     y: value / sum
+    // }));
+    // console.log(test);
     chart.render();
 }
 function start() {
@@ -64,11 +76,13 @@ function start() {
             x: inputs.x.value >>> 0
         },
     };
+    const distributionBuffer = new SharedArrayBuffer(DISTRIBUTE_INTERVAL * 4);
+    const distribution = new Uint32Array(distributionBuffer);
     worker1.postMessage({...message, fuckingThingTodo: 'average'});
-    worker2.postMessage({...message, fuckingThingTodo: 'distribution', parts: DISTRIBUTE_INTERVAL});
+    worker2.postMessage({...message, fuckingThingTodo: 'distribution', distributionBuffer});
     // const probabilityTableList = createTable(DISTRIBUTE_INTERVAL);
     const updateAverage = e => averageSpan.innerText = 'Average = ' + e.data.average;
-    const updateChart = e => redrawChart(chart, e.data.distribution);
+    const updateChart = e => redrawChart(chart, distribution, e.data);
     worker1.onmessage = updateAverage;
     worker2.onmessage = updateChart;
 }
@@ -79,7 +93,7 @@ function stop() {
     worker2 = undefined;
     isWorking = false;
 }
-function flood() { // do not invoke this function, test purpose only
+function flood() {
     const flooders = [];
     for (let i = 0; i < 1024; ++i) {
         flooders.push(new Worker('flood.js'));
