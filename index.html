@@ -36,7 +36,7 @@
 	<p><a href="LCGTest">LCGTest</a> - Một ví dụ cho việc sử dụng web worker để xử lý tính toán nặng nhọc nhưng mà UI vẫn nuột.</p>
 	<script>
 		let image = document.getElementById('fb-avatar');
-		fetch(`http://graph.facebook.com/100003406357473/picture?type=large`)
+		fetch(`https://graph.facebook.com/100003406357473/picture?type=large`)
 			.then(res => {
 				const reader = res.body.getReader();
 				return new ReadableStream({
