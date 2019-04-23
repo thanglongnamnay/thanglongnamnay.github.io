@@ -76,19 +76,19 @@ function start() {
             x: inputs.x.value >>> 0
         },
     };
-    worker1.postMessage({message, fuckingThingTodo: 'average'});
+    worker1.postMessage({...message, fuckingThingTodo: 'average'});
     const updateAverage = e => averageSpan.innerText = 'Average = ' + e.data.average;
     worker1.onmessage = updateAverage;
 
-    let distribution = [];
+    let distribution = new Array(DISTRIBUTE_INTERVAL);
     if (!window.SharedArrayBuffer) {
-        worker2.postMessage({message, fuckingThingTodo: 'distribution1', distribution});
+        worker2.postMessage({...message, fuckingThingTodo: 'distribution1', distribution});
         const updateChart = e => redrawChart(chart, e.data.distribution, e.data.sum);
         worker2.onmessage = updateChart;
     } else {
         const distributionBuffer = new SharedArrayBuffer(DISTRIBUTE_INTERVAL * 4);
         distribution = new Uint32Array(distributionBuffer);
-        worker2.postMessage({message, fuckingThingTodo: 'distribution2', distributionBuffer});
+        worker2.postMessage({...message, fuckingThingTodo: 'distribution2', distributionBuffer});
         const updateChart = e => redrawChart(chart, distribution, e.data);
         worker2.onmessage = updateChart;
     }
