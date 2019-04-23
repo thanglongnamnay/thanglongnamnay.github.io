@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Shell game</title>
+	<style>
+		#canvas {
+			position: absolute;
+			top: 60%;
+			left: 50%;
+			transform: translate(-50%, -60%);
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="550" height="400"></canvas>
+	<form action="#">
+		<p>
+			<label for="time">Thời gian đổi cốc: </label>
+			<input type="number" id="time" value="300">
+		</p>
+		<p>
+			<label for="swapNumber">Số lần đổi cốc: </label>
+			<input type="number" id="swapNumber" value="10">
+		</p>
+	</form>
+	<img src="cup.png" id="cup" hidden>
+	<img src="start.png" id="startBtn" hidden>
+	<script defer src="main.js"></script>
+</body>
+</html>

@@ -76,15 +76,22 @@ function start() {
             x: inputs.x.value >>> 0
         },
     };
-    const distributionBuffer = new SharedArrayBuffer(DISTRIBUTE_INTERVAL * 4);
-    const distribution = new Uint32Array(distributionBuffer);
-    worker1.postMessage({...message, fuckingThingTodo: 'average'});
-    worker2.postMessage({...message, fuckingThingTodo: 'distribution', distributionBuffer});
-    // const probabilityTableList = createTable(DISTRIBUTE_INTERVAL);
+    worker1.postMessage({message, fuckingThingTodo: 'average'});
     const updateAverage = e => averageSpan.innerText = 'Average = ' + e.data.average;
-    const updateChart = e => redrawChart(chart, distribution, e.data);
     worker1.onmessage = updateAverage;
-    worker2.onmessage = updateChart;
+
+    let distribution = [];
+    if (!window.SharedArrayBuffer) {
+        worker2.postMessage({message, fuckingThingTodo: 'distribution1', distribution});
+        const updateChart = e => redrawChart(chart, e.data.distribution, e.data.sum);
+        worker2.onmessage = updateChart;
+    } else {
+        const distributionBuffer = new SharedArrayBuffer(DISTRIBUTE_INTERVAL * 4);
+        distribution = new Uint32Array(distributionBuffer);
+        worker2.postMessage({message, fuckingThingTodo: 'distribution2', distributionBuffer});
+        const updateChart = e => redrawChart(chart, distribution, e.data);
+        worker2.onmessage = updateChart;
+    }
 }
 function stop() {
     worker1.terminate();
@@ -99,39 +106,3 @@ function flood() {
         flooders.push(new Worker('flood.js'));
     }
 }
-/*
-function appendRow(table, range) {
-    let trow = document.createElement('tr'),
-        tdata1 = document.createElement('td'),
-        tdata2 = document.createElement('td');
-    tdata1.innerText = range;
-    tdata2.innerText = '0';
-    tdata2.className = 'probability-data';
-    trow.appendChild(tdata1);
-    trow.appendChild(tdata2);
-    table.appendChild(trow);
-}
-function getRangeList(division) {
-    const part = 1 / division;
-    const rangeList = [];
-    let start = 0;
-    while (rangeList.length < division) {
-        rangeList.push(`${start.toFixed(2)}..${(start + part).toFixed(2)}`);
-        start += part;
-    }
-    return rangeList;
-}
-function createTable(rows) {
-    const rangeList = getRangeList(rows);
-    for (let range of rangeList) {
-        appendRow(distributionTable, range);
-    }
-    return document.getElementsByClassName('probability-data');
-}
-function rewriteTable(table, distribution) {
-    const sum = distribution.reduce((prev, curr) => prev + curr, 0);
-    distribution = distribution.map(x => x / sum);
-    distribution.forEach((value, index) => {
-        table[index].innerText = value;
-    });
-} */
