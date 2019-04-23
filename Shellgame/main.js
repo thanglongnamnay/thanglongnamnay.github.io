@@ -1,5 +1,5 @@
 'use strict'
-function Shell(ctx, n) {
+function Shell(ctx, cup, n) {
 	let hasBall = false, lifted = false, oldIndex = n, newIndex = n;
 	if (n === 1) hasBall = true;
 	function getIndex() { return newIndex; }
@@ -90,14 +90,16 @@ function Shell(ctx, n) {
 (function Game() {
 	const canvas = document.getElementById('canvas');
 	const ctx = canvas.getContext('2d');
-	const cup = document.getElementById('cup');
 	const speedInput = document.getElementById('time');
 	const swapNumberInput = document.getElementById('swapNumber');
-	const startBtn = document.getElementById('startBtn');
+	const startBtn = new Image();
+	const cup = new Image();
 	const arr = [[0,1,2], [0,2,1], [1,0,2], [1,2,0], [2,0,1], [2,1,0]];
-	const shells = [Shell(ctx, 0), Shell(ctx, 1), Shell(ctx, 2)];
+	const shells = [Shell(ctx, cup, 0), Shell(ctx, cup, 1), Shell(ctx, cup, 2)];
 	let moving = false, gameover = false;
-	onload = () => {
+	startBtn.src = 'start.png';
+	startBtn.onload = () => { cup.src = 'cup.png' };
+	cup.onload = () => {
 		shells.forEach(draw);
 		ctx.drawImage(startBtn, (canvas.width - startBtn.width) / 2, 70);
 		shells.forEach(s => s.lift(() => setTimeout(s.release, 500)));
