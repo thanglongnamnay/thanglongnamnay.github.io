@@ -47,8 +47,8 @@
 	canvas.addEventListener('mousemove', handleMouseMove);
 
 	canvas.addEventListener('touchstart', handleMouseDown);
-	// canvas.addEventListener('touchend', handleMouseUp);
-	// canvas.addEventListener('touchcancel', handleMouseUp);
+	canvas.addEventListener('touchend', handleTouchEnd);
+	canvas.addEventListener('touchcancel', handleTouchEnd);
 	canvas.addEventListener('touchmove', handleMouseMove);
 	function hideVoteBtns(hide) {
 		btnAgree.hidden = hide;
@@ -109,7 +109,6 @@
 	}
 	function handleMouseDown(e) {
 		e.preventDefault();
-		console.log(e);
 		const xy = getXY(e);
 		x = xy.x;
 		y = xy.y;
@@ -120,6 +119,10 @@
 		const xy = getXY(e);
 		x = xy.x;
 		y = xy.y;
+		drawing = false;
+	}
+	function handleTouchEnd(e) {
+		e.preventDefault();
 		drawing = false;
 	}
 	function getXY(e) {
