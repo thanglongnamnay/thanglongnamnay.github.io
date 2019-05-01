@@ -47,8 +47,8 @@
 	canvas.addEventListener('mousemove', handleMouseMove);
 
 	canvas.addEventListener('touchstart', handleMouseDown);
-	canvas.addEventListener('touchend', handleMouseUp);
-	canvas.addEventListener('touchcancel', handleMouseUp);
+	// canvas.addEventListener('touchend', handleMouseUp);
+	// canvas.addEventListener('touchcancel', handleMouseUp);
 	canvas.addEventListener('touchmove', handleMouseMove);
 	function hideVoteBtns(hide) {
 		btnAgree.hidden = hide;
@@ -89,27 +89,27 @@
 		socket.emit('cleared');
 	});
 	function handleMouseMove(e) {
-		const x2 = e.offsetX * scale, y2 = e.offsetY * scale;
+		const x2 = e.offsetX || (e.touches[0].clientX - e.target.offsetLeft) * scale, y2 = e.offsetY || (e.touches[0].clientY - e.target.offsetTop) * scale;
 		if (drawing) draw(x, y, x2, y2, penSize, color);
 		x = x2;
 		y = y2;
 	}
 	function handleMouseEnter(e) {
-		x = e.offsetX * scale;
-		y = e.offsetY * scale;
+		x = e.offsetX || (e.touches[0].clientX - e.target.offsetLeft) * scale;
+		y = e.offsetY || (e.touches[0].clientY - e.target.offsetTop) * scale;
 	}
 	function handleMouseLeave(e) {
-		if (drawing) draw(x, y, e.offsetX * scale, e.offsetY * scale);
+		if (drawing) draw(x, y, e.offsetX || (e.touches[0].clientX - e.target.offsetLeft) * scale, e.offsetY || (e.touches[0].clientY - e.target.offsetTop) * scale);
 		drawing = false;
 	}
 	function handleMouseDown(e) {
-		x = e.offsetX * scale;
-		y = e.offsetY * scale;
+		x = e.offsetX || (e.touches[0].clientX - e.target.offsetLeft) * scale;
+		y = e.offsetY || (e.touches[0].clientY - e.target.offsetTop) * scale;
 		drawing = true;
 	};
 	function handleMouseUp(e) {
-		x = e.offsetX * scale;
-		y = e.offsetY * scale;
+		x = e.offsetX || (e.touches[0].clientX - e.target.offsetLeft) * scale;
+		y = e.offsetY || (e.touches[0].clientY - e.target.offsetTop) * scale;
 		drawing = false;
 	}
 	function draw(x1, y1, x2, y2, size = penSize, col = color, isEmit = true) {
