@@ -7,9 +7,6 @@
 	const scale = 2;
 	canvas.width = 720 * scale;
 	canvas.height = 480 * scale;
-	let worker = new Worker('worker.js');
-	const offscreen = canvas.transferControlToOffscreen();
-	worker.postMessage({canvas: offscreen}, [offscreen]);
 	const penSizeLabel = $('penSizeLabel');
 	const penSizeInput = $('penSize');
 	const penColorInput = $('penColor');
@@ -38,6 +35,32 @@
 	btnDownload.onclick = e => {
 		const imgUrl = canvas.toDataURL('image/png');
 		e.target.href = imgUrl;
+	}
+
+	let worker, offscreen, ctx, draw;
+	if (canvas.transferControlToOffscreen) {
+		worker = new Worker('worker.js');
+		offscreen = canvas.transferControlToOffscreen();
+		worker.postMessage({canvas: offscreen}, [offscreen]);
+		draw = (x1, y1, x2, y2, size, color, isEmit = true) => {
+			worker.postMessage({x1, y1, x2, y2, size, color});
+			if (isEmit) socket.emit('draw', {x1, y1, x2, y2, size, color});
+		}
+	} else {
+		ctx = canvas.getContext('2d');
+		ctx.lineCap = 'round';
+		ctx.lineJoin = 'round';
+		draw = (x1, y1, x2, y2, size, color, isEmit = true) => {
+			ctx.strokeStyle = color;
+			ctx.lineWidth = size;
+			ctx.beginPath();
+			ctx.moveTo(x1, y1);
+			ctx.lineTo(x2, y2);
+			ctx.closePath();
+			ctx.stroke();
+			if (isEmit) socket.emit('draw', {x1, y1, x2, y2, size, color});
+			// console.log('draw');
+		};
 	}
 
 	canvas.addEventListener('mousedown', handleMouseDown);
@@ -92,33 +115,29 @@
 		e.preventDefault();
 		const xy = getXY(e);
 		if (drawing) draw(x, y, xy.x, xy.y, penSize, color);
-		x = xy.x;
-		y = xy.y;
+		setxy(xy);
 	}
 	function handleMouseEnter(e) {
 		e.preventDefault();
 		const xy = getXY(e);
-		x = xy.x;
-		y = xy.y;
+		setxy(xy);
 	}
 	function handleMouseLeave(e) {
 		e.preventDefault();
 		const xy = getXY(e);
-		if (drawing) draw(x, y, xy.x, xy.y);
+		if (drawing) draw(x, y, xy.x, xy.y, penSize, color);
 		drawing = false;
 	}
 	function handleMouseDown(e) {
 		e.preventDefault();
 		const xy = getXY(e);
-		x = xy.x;
-		y = xy.y;
+		setxy(xy);
 		drawing = true;
 	};
 	function handleMouseUp(e) {
 		e.preventDefault();
 		const xy = getXY(e);
-		x = xy.x;
-		y = xy.y;
+		setxy(xy);
 		drawing = false;
 	}
 	function handleTouchEnd(e) {
@@ -131,15 +150,5 @@
 			y: (e.offsetY || (e.touches[0].clientY - e.target.offsetTop)) * scale
 		}
 	}
-	function draw(x1, y1, x2, y2, size = penSize, col = color, isEmit = true) {
-		worker.postMessage({x1, y1, x2, y2, size, color: col});
-		// ctx.strokeStyle = col;
-		// ctx.beginPath();
-		// ctx.moveTo(x1, y1);
-		// ctx.lineTo(x2, y2);
-		// ctx.closePath();
-		// ctx.stroke();
-		if (isEmit) socket.emit('draw', {x1, y1, x2, y2, size, color:col});
-		// console.log('draw');
-	};
+	function setxy(xy) { x = xy.x; y = xy.y}
 })();

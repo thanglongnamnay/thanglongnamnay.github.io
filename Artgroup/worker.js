@@ -4,6 +4,7 @@ self.onmessage = e => {
 		canvas = e.data.canvas;
 		ctx = canvas.getContext('2d');
 		ctx.lineJoin = 'round';
+		ctx.lineCap = 'round';
 	} else if (e.data == 'clear') {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 	} else {
