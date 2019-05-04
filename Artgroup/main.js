@@ -2,7 +2,7 @@
 
 (function() {
 	const $ = id => document.getElementById(id);
-	const socket = io('https://thanglongnamnay.me/artgroup');
+	const socket = io('https://thanglongnamnay.azurewebsites.net/artgroup');
 	const canvas = $('canvas');
 	const scale = 2;
 	canvas.width = 720 * scale;
