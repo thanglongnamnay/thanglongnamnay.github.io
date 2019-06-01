@@ -105,7 +105,8 @@ function Calculate() {
 			for (let i = 0; i < n - 1; ++i) {
 				swapMax(i);
 				for (let j = i + 1; j < n; ++j) {
-					V[j] = V[i].mult(V[j].get(i) / V[i].get(i)).minus(V[j]);
+					if (V[i].get(i) !== 0)
+						V[j] = V[i].mult(V[j].get(i) / V[i].get(i)).minus(V[j]);
 				}
 			}
 		}

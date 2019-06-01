@@ -1,0 +1,244 @@
+:root{
+	font-size: 16px;
+	font-family: sans-serif;
+}
+*{
+	box-sizing: border-box;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: default;
+	transition: .1s linear;
+}
+body{
+	overflow: hidden;
+	margin: 0;
+}
+p{
+	position: absolute;
+}
+a{
+	cursor: pointer;
+}
+.background{
+	z-index: -1;
+	width: 75vw;
+	height: auto;
+	position: fixed;
+	top: 50%;
+	transform: translate(0, -50%);
+	filter: blur(1vh);
+}
+.gradient{
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	left: 480px;
+	background: linear-gradient(to right, white, yellow);
+}
+@media only screen and (max-height: 640px) and (orientation: landscape) {
+	.background{
+		width: 75vh;
+	}
+}
+@media only screen and (max-width: 640px) and (orientation: portrait) {
+	.background{
+		width: 75vw;
+	}
+}
+@media only screen and (min-height: 640px) and (min-width: 640px){
+	.background{
+		width: 480px;
+	}
+}
+.table-container{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100vw;
+	padding-top: 100vw;
+	transform: translate(-50%, -50%);
+	background: white;
+	box-shadow: 3vw 3vw 6vw rgba(4, 68, 83, 0.5);
+}
+.controls {
+    top: -200px;
+    left: -200px;
+    width: 20%;
+    height: 30%;
+}
+.dice {
+	height: 65%;
+	-webkit-filter: drop-shadow(.4em .4em .1em rgba(0,0,0,.5));
+	-o-filter: drop-shadow(.4em .4em .1em rgba(0,0,0,.5));
+	filter: drop-shadow(.4em .4em .1em rgba(0,0,0,.5));
+}
+.dice:hover {
+	filter: brightness(110%) drop-shadow(.4em .4em .1em rgba(0,0,0,.5));;
+}
+.dice:active {
+	transform: translate(.3em,.3em);
+	-webkit-filter: drop-shadow(.1em .1em .03em rgba(0,0,0,.5));
+	-o-filter: drop-shadow(.1em .1em .03em rgba(0,0,0,.5));
+	filter: drop-shadow(.1em .1em .03em rgba(0,0,0,.5));
+}
+.ketqua {
+	color: white;
+}
+@media only screen and (min-width: 640px) and (min-height: 640px) {
+	.table-container{
+		width: 640px;
+		height: 640px;
+		padding-top: 0;
+		box-shadow: 19.2px 19.2px 38.4px rgba(4, 68, 83, 0.5);
+	}
+}
+@media only screen and (max-height: 640px) and (orientation: landscape) {
+	.table-container{
+		width: 100vh;
+		padding-top: 100vh;
+		box-shadow: 3vh 3vh 6vh rgba(4, 68, 83, 0.5);
+	}
+}
+.openpage{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	padding: 10% 15%;
+	text-align: center;
+	color: #212529;
+	/*border: 1px solid black;*/
+}
+.gamemode{
+	text-align: left;
+	font-weight: bold;
+	line-height: 200%;
+}
+.game-title{
+	position: static;
+}
+.about{
+	display: -webkit-inline-flex;
+	display: -moz-inline-flex;
+	display: -ms-inline-flex;
+	display: -o-inline-flex;
+	display: inline-flex;
+	justify-content: space-around;
+	margin-top: 10%;
+	width: 100%;
+	text-align: left;
+	font-weight: bold;
+}
+.about a{
+	width: 25%;
+	text-align: center;
+}
+@media only screen and (max-height: 640px) and (orientation: landscape) {
+	.fontlarge{
+		font-size: 10vh;
+	}
+	.fontmedium{
+		font-size: 4vh;
+	}
+	.fontsmall{
+		font-size: 3vh;
+	}
+}
+@media only screen and (max-width: 640px) and (orientation: portrait) {
+	.fontlarge{
+		font-size: 10vw;
+	}
+	.fontmedium{
+		font-size: 4vw;
+	}
+	.fontsmall{
+		font-size: 3vw;
+	}
+}
+@media only screen and (min-width: 640px) and (min-height: 640px) {
+	.fontlarge{
+		font-size: 64px;
+	}
+	.fontmedium{
+		font-size: 26px;
+	}
+	.fontsmall{
+		font-size: 18px;
+	}
+}
+.table{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/*background: #263238;*/
+	background-color: white;
+	/*border: 2px solid #263238;*/
+	display: grid;
+	grid-template-areas: 
+		'home0 home0 home0 home0 home0 home0 pos0 pos55 pos54 home3 home3 home3 home3 home3 home3'
+		'home0 home0 home0 home0 home0 home0 pos1 chuong01 pos53 home3 home3 home3 home3 home3 home3'
+		'home0 home0 home0 home0 home0 home0 pos2 chuong02 pos52 home3 home3 home3 home3 home3 home3'
+		'home0 home0 home0 home0 home0 home0 pos3 chuong03 pos51 home3 home3 home3 home3 home3 home3'
+		'home0 home0 home0 home0 home0 home0 pos4 chuong04 pos50 home3 home3 home3 home3 home3 home3'
+		'home0 home0 home0 home0 home0 home0 pos5 chuong05 pos49 home3 home3 home3 home3 home3 home3'
+		'pos12 pos11 pos10 pos9 pos8 pos7 pos6 chuong06 pos48 pos47 pos46 pos45 pos44 pos43 pos42'
+		'pos13 chuong11 chuong12 chuong13 chuong14 chuong15 chuong16 nowhere chuong36 chuong35 chuong34 chuong33 chuong32 chuong31 pos41'
+		'pos14 pos15 pos16 pos17 pos18 pos19 pos20 chuong26 pos34 pos35 pos36 pos37 pos38 pos39 pos40'
+		'home1 home1 home1 home1 home1 home1 pos21 chuong25 pos33 home2 home2 home2 home2 home2 home2'
+		'home1 home1 home1 home1 home1 home1 pos22 chuong24 pos32 home2 home2 home2 home2 home2 home2'
+		'home1 home1 home1 home1 home1 home1 pos23 chuong23 pos31 home2 home2 home2 home2 home2 home2'
+		'home1 home1 home1 home1 home1 home1 pos24 chuong22 pos30 home2 home2 home2 home2 home2 home2'
+		'home1 home1 home1 home1 home1 home1 pos25 chuong21 pos29 home2 home2 home2 home2 home2 home2'
+		'home1 home1 home1 home1 home1 home1 pos26 pos27 pos28 home2 home2 home2 home2 home2 home2';
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 2fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-gap: 2px;
+}
+.table div{
+	line-height: 0;
+}
+.table>div{
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	background-size: 110%;
+	background-color: rgb(225,225,225);
+	background-position: center;
+	background-repeat: no-repeat;
+	border-radius: 10px 20px;
+	box-shadow: 2px 2px rgba(0,0,0,.5);
+}
+.table>div:hover {
+	background-color: rgb(190,190,190);
+}
+.table>div:active {
+	transform: translate(2px,2px);
+	box-shadow: none;
+}
+.table>div img{
+	width: 17%;
+	margin: 2% 1%;
+}
+.home0{	
+	grid-area: home0;
+	background: url("../images/nha_xanh.webp") center;
+}
+.home3{ 
+	grid-area: home3; 
+	background: url("../images/nha_vang.webp") center;
+}
+.home1{ 
+	grid-area: home1; 
+	background: url("../images/nha_luc.webp") center;
+}
+.home2{ 
+	grid-area: home2; 
+	background: url("../images/nha_do.webp") center;
+}
+.nowhere{
+	background: url("../images/exit.svg") center;
+}

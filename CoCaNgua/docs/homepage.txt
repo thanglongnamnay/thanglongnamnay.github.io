@@ -1,0 +1,1 @@
+<div class="openpage"><p class="game-title fontlarge">CỜ CÁ NGỰA</p><div class="gamemode fontmedium"><a onclick="play(0)">⏵ 1 người đấu 3 máy</a> <br><a onclick="play(1)">⏵ Xem 4 máy đấu với nhau</a></div></div>
