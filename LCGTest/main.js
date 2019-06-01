@@ -10,9 +10,15 @@ const inputs = {
     m: document.getElementById('m-input'),
     x: document.getElementById('X0-input')
 };
+let random = LCG(inputs.a.value >>> 0,
+    inputs.c.value >>> 0,
+    inputs.m.value >>> 0,
+    inputs.x.value >>> 0);
+const nextNumberLabel = document.getElementById('next-number');
 const averageSpan = document.getElementById('average-span');
 document.getElementById('start-function').onclick = start;
 document.getElementById('stop-function').onclick = stop;
+document.getElementById('next-function').onclick = next;
 function drawChart() {
     document.getElementById('chartContainer').style.height = '90vh';
     document.getElementById('watermark-notice').hidden = false;
@@ -76,6 +82,7 @@ function start() {
             x: inputs.x.value >>> 0
         },
     };
+    random = LCG(message.inputs.a, message.inputs.c, message.inputs.m, message.inputs.x);
     worker1.postMessage({...message, fuckingThingTodo: 'average'});
     const updateAverage = e => averageSpan.innerText = 'Average = ' + e.data.average;
     worker1.onmessage = updateAverage;
@@ -100,9 +107,12 @@ function stop() {
     worker2 = undefined;
     isWorking = false;
 }
-function flood() {
-    const flooders = [];
-    for (let i = 0; i < 1024; ++i) {
-        flooders.push(new Worker('flood.js'));
+function LCG(a, c, m, x) {
+    return function random() {
+        x = (a * x + c) % m;
+        return x / m;
     }
+}
+function next() {
+    nextNumberLabel.innerText = random();
 }

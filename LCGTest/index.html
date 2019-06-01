@@ -6,10 +6,12 @@
     <meta name="description"
           content="An example of Web Worker doing heavy calculation without freezing user's browser. And check if your LCG algorithm is a Uniform distribution continuous (!?).">
     <link href="style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/png" href="/icon.png"/>
 </head>
 <body>
+    <a class="back" href="../">⏴Back</a>
     <div id="container">
         <form name="uploadForm">
             <h2>Linear congruential generator test</h2>
@@ -29,9 +31,10 @@
             </p>
             <p>
                 <button type="button" id="start-function"
-                        title="I can turn this to 'Stop it' so there's only one button, but i dont like it">Make
-                    it</button>
+                        title="I can turn this to 'Stop it' so there's only one button, but i dont like it">Make it</button>
                 <button type="button" id="stop-function" title="get some help">Stop it,</button>
+                <button type="button" id="next-function">Next number</button>
+                <span id="next-number"></span>
             </p>
         </form>
         <div><span id="average-span"></span></div>

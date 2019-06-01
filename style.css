@@ -1,0 +1,77 @@
+body {
+	font-family: cousine, consolas, courier new, monospace;
+	color: #222;
+	background: #eee;
+	padding: 50px;
+}
+h1 {
+	text-align: center;
+}
+p, li {
+	font-size: 1rem;
+	line-height: 1.625;
+}
+a {
+	cursor: pointer;
+	text-decoration: none;
+	color: blue;
+}
+a:hover {
+	text-decoration: underline;
+}
+form {
+	margin: 10px 0;
+}
+label {
+	margin: 5px 0;
+}
+input {
+	border: 1px solid black;
+	border-radius: 4px;
+	padding: 0.5rem .25rem;
+}
+section {
+	margin: 1rem 0;
+}
+button {
+	background: #5cb85c;
+	font-family: inherit;
+	font-weight: 500;
+	font-size: 1rem;
+	color: white;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	padding: 0.5rem 1rem;
+}
+button:hover {
+	background: #449d44;
+}
+button:active {
+	transform: scale(.95, .95);
+}
+button:disabled {
+	background: #aaa;
+}
+.back {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+
+}
+.number-input {
+	text-align: right;
+	width: 5rem;
+}
+.row {
+	margin: .25rem 0;
+}
+.form-control {
+	display: block;
+	width: 100%;
+	margin: 5px 0;
+}
+#fb-avatar {
+	position: relative;
+	left: calc(50% - 50px);
+	border-radius: 50%;
+}

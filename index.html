@@ -1,71 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Những dự án thời đại học của bạn Long">
-	<link rel="shortcut icon" type="image/png" href="/icon.png"/>
-	<title>Thanglongnamnay</title>
-	<style>
-		body {
-			font-family: cousine, consolas, courier new, monospace;
-			background: #eeeeee;
-			padding: 50px;
-		}
-		h1 {
-			text-align: center;
-		}
-		p {
-			line-height: 1.625;
-		}
-		a {
-			text-decoration: none;
-			color: blue;
-		}
-		#fb-avatar {
-			position: relative;
-			left: calc(50% - 50px);
-			border-radius: 50%;
-		}
-	</style>
-</head>
-<body>
-	<a href="https://fb.com/tlsta"><img id="fb-avatar" alt="Facebook avatar" width="100" height="100"></a>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Những dự án thời đại học của bạn Long">
+<link rel="shortcut icon" type="image/png" href="/icon.png"/>
+<title>Thanglongnamnay</title>
+<link rel="stylesheet" href="/style.css">
+<header>
+	<a href="https://fb.com/tlsta"><img id="fb-avatar" title="My facebook" alt="Facebook avatar" width="100" height="100"></a>
 	<h1>VVelcum boys</h1>
-	<p><a href="https://github.com/thanglongnamnay">Github</a> của mình, có mấy project nho nhỏ làm hồi đại học. Giờ mình vẫn đang học đại học :D</p>
-	<p><a href="https://cocangua.ml">Cờ cá ngựa</a>. Vào ngó tí nhé, không phải trang wiki đâu.</p>
-	<p><a href="LCGTest">LCGTest</a> - Một ví dụ cho việc sử dụng web worker để xử lý tính toán nặng nhọc nhưng mà UI vẫn nuột.</p>
-	<p><a href="Pixelart">Pixelart</a> - Một ví dụ khác.</p>
-	<p><a href="Shellgame">Shellgame</a> - Trò chơi tìm bóng.</p>
-	<p><a href="Artgroup">Art in group</a> - Vẽ theo nhóm. Lấy lại ánh hào quang Yahoo!! xưa.</p>
-	<script>
-		let image = document.getElementById('fb-avatar');
-		fetch(`https://graph.facebook.com/100003406357473/picture?type=large`)
-			.then(res => {
-				const reader = res.body.getReader();
-				return new ReadableStream({
-				    start(controller) {
-				    	return pump();
-				    	function pump() {
-				    		return reader.read().then(({ done, value }) => {
-				    		// When no more data needs to be consumed, close the stream
-					    		if (done) {
-					     			controller.close();
-					    			return;
-					    		}
-					    		// Enqueue the next data chunk into our target stream
-					    		controller.enqueue(value);
-					    		return pump();
-					    	});
-					    }
-					}  
-				})
-			})
-			.then(stream => new Response(stream))
-			.then(response => response.blob())
-			.then(blob => URL.createObjectURL(blob))
-			.then(url => { image.src = url })
-			.catch(err => console.error(err));
-	</script>
-</body>
-</html>
+	<div>
+		
+	</div>
+</header>
+<main><ul>
+	<li><a href="https://github.com/thanglongnamnay">Github</a> của mình, có mấy project nho nhỏ làm hồi đại học. Giờ mình vẫn đang học đại học :D
+	<li><a href="https://cocangua.ml">Cờ cá ngựa</a>. Vào ngó tí nhé, không phải trang wiki đâu.
+	<li><a href="LCGTest">LCGTest</a> - Kiểm tra xem hàm sinh số ngẫu nhiêu LCG của bạn có thực sự ngẫu nhiên không.
+	<li><a href="Pixelart">Pixelart</a> - Một ví dụ khác.
+	<li><a href="Shellgame">Shellgame</a> - Trò chơi tìm bóng.
+	<li><a href="Artgroup">Art in group</a> - Vẽ theo nhóm. Lấy lại ánh hào quang Yahoo!! xưa.
+	<li><a href="Utility">Tiện ích</a> - Những tiện ích nhỏ, chủ yếu về số học cho các bạn đỡ phải tìm trên App store (Đang cập nhật).
+</ul></main>
+<script>
+	let image = document.getElementById('fb-avatar');
+	fetch(`https://graph.facebook.com/100003406357473/picture?type=large`)
+		.then(res => res.blob())
+		.then(blob => URL.createObjectURL(blob))
+		.then(url => { image.src = url })
+		.catch(console.log);
+</script>
