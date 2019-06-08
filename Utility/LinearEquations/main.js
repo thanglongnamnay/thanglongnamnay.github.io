@@ -1,3 +1,4 @@
+import Calculate from './calculate.js';
 const $ = id => document.getElementById(id);
 (function main(matrixSizeInput , createButton, calculateButton, tableSection) {
 	'use strict';
