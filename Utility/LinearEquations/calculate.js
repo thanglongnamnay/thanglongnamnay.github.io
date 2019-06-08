@@ -1,5 +1,5 @@
 'use strict';
-export function Calculate() {
+export default function Calculate() {
 	function VectorN(n) {
 		let V = [];
 		// methods
