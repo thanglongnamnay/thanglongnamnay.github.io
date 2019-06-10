@@ -202,14 +202,28 @@ function drawAllRayIntersection(canvas, ctx, point, polygonList, rays) {
 function polygonPairToPointList(p1, p2) {
     const pointList = [];
     for (let x1 = 0; x1 < p1.points.length; ++x1) {
-        for (let y1 = x1 + 1; y1 < p1.points.length; ++y1) {
-            for (let x2 = 0; x2 < p2.points.length; ++x2) {
-                for (let y2 = x2 + 1; y2 < p2.points.length; ++y2) {
-                    const intersection = checkLineIntersection(p1.points[x1], p1.points[y1], p2.points[x2], p2.points[y2])
-                    if (intersection.onLine1 && intersection.onLine2) {
-                        pointList.push(intersection.position);
-                    }
-                }
+        const y1 = (x1 + 1) % p1.points.length;
+        for (let x2 = 0; x2 < p2.points.length; ++x2) {
+            const y2 = (x2 + 1) % p2.points.length;
+            const intersection = checkLineIntersection(p1.points[x1], p1.points[y1], p2.points[x2], p2.points[y2])
+            if (intersection.onLine1 && intersection.onLine2) {
+                pointList.push(intersection.position);
+            }
+        }
+    }
+    return pointList;
+}
+
+function selfIntersection(poly) {
+    const size = poly.points.length;
+    const pointList = [];
+    for (let x1 = 0; x1 < size; ++x1) {
+        const y1 = (x1 + 1) % size;
+        for (let x2 = x1 + 1; x2 < size; ++x2) {
+            const y2 = (x2 + 1) % size;
+            const intersection = checkLineIntersection(poly.points[x1], poly.points[y1], poly.points[x2], poly.points[y2])
+            if (intersection.onLine1 && intersection.onLine2) {
+                pointList.push(intersection.position);
             }
         }
     }
@@ -220,8 +234,8 @@ function polygonListToPointList(polygonList) {
     const size = polygonList.length;
     const pointList = [];
     for (let i = 0; i < size; ++i) {
-        pointList.push(...polygonList[i].points);
-        for (let j = i; j < size; ++j) {
+        pointList.push(...polygonList[i].points, ...selfIntersection(polygonList[i]));
+        for (let j = i + 1; j < size; ++j) {
             pointList.push(...polygonPairToPointList(polygonList[i], polygonList[j]));
         }
     }
@@ -230,11 +244,6 @@ function polygonListToPointList(polygonList) {
 
 function drawAllRayVertex(canvas, ctx, point, polygonList, sort = true) {
     let rays = [];
-    // for (const polygon of polygonList) {
-    //     for (const vertex of polygon.points) {
-    //         rays.push(vertex.minus(point));
-    //     }
-    // }
     rays = polygonListToPointList(polygonList).map(p => p.minus(point));
     rays = rays.flatMap(r => ([r.rotate(.00001), r.rotate(-.00001)]));
     if (sort) rays.sort((a, b) => a.angleTo(b));

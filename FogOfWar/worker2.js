@@ -8,7 +8,6 @@ const handleMouseMove = [], handleMouseClick = [], handleKeyUp = [];
 
 let polygonList = [];
 const canvasRect = Polygon('#eee', [Vector(0, 0), Vector(1, 0), Vector(1, 1), Vector(0, 1)]);
-const rayNumber = 60;
 
 self.onmessage = e => {
     const i = e.data.index;
@@ -55,7 +54,7 @@ handleMouseMove[0] = function(e) {
 
 handleMouseMove[1] = handleMouseClick[1] = function(e) {
     redraw(canvas, ctx, polygonList);
-    const rays = getRays(rayNumber);
+    const rays = getRays(60);
     const {x, y} = e;
     const point = Vector(x / canvas.width, y / canvas.height);
     const big = drawAllRayIntersection(canvas, ctx, point, polygonList, rays);
@@ -67,7 +66,7 @@ handleMouseMove[1] = handleMouseClick[1] = function(e) {
 
 handleMouseMove[2] = handleMouseClick[2] = function(e) {
     redraw(canvas, ctx, polygonList);
-    const rays = getRays(rayNumber);
+    const rays = getRays(60);
     const {x, y} = e;
     const point = Vector(x / canvas.width, y / canvas.height);
     const big = drawAllRayIntersection(canvas, ctx, point, polygonList, rays);
