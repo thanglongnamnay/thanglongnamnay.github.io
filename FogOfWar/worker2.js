@@ -18,7 +18,7 @@ self.onmessage = e => {
     		ctx = canvas.getContext('2d');
         }
         handleApply(e.data.polygonList);
-        if (i < 7) {
+        if (i < 8) {
             handleMouseClick[i] && handleMouseClick[i]({ x: canvas.width / 2, y: canvas.height / 2 });
             handleMouseMove[i] && handleMouseMove[i]({ x: canvas.width / 2, y: canvas.height / 2 });
         }

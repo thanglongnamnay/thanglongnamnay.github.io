@@ -2,8 +2,9 @@
 	transition: .1s linear;
 	text-align: justify;
 }
-html, body {
+body {
   	height: 100%;
+  	margin-bottom: 20px;
 }
 body {
 	/*font-family: cousine, consolas, courier new, monospace;*/

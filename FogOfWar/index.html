@@ -84,7 +84,13 @@
 
         <canvas class="figure-canvas" width="1600" height="900"></canvas><br>
 
+        <blockquote><p>Đường cong thì sao, đường cong làm gì có đỉnh nào mà làm kiểu này?</p></blockquote>
 
+        <p>Khi gặp một vấn đề về... À cái này không phải về performance. Ông có thể fallback về cách ban đầu, bắn 6.000 tia ra khắp nơi. Hoặc có thể coi đường cong là tập hợp vô số đoạn thẳng, do đó có vô số đỉnh. Nhưng đối với các đường cong đơn giản như hình tròn hay eclipse thì ta có thể chỉ cần tìm và xét 2 điểm trên đó mà tạo với vị trí người chơi một góc lớn nhất. Khi đó thuật toán trên vẫn hoạt động bình thường.</p>
+
+        <blockquote><p>Vậy trên 3D thì làm như thế nào??</p></blockquote>
+
+        <p>Tôi chưa làm trên 3D, vì trên đó mấy cái ánh sáng được lo hết bởi engine rồi, mình chả có việc gì để làm cả. Nhưng mà tư tưởng chắc là cũng như vậy, có thể họ dùng cách thứ nhất, vì cách đó rất chậm nếu làm trên CPU, nhưng mà sẽ rất nhanh trên GPU. Và như thế là chúng ta có Ray Tracing 🙃.</p>
     </main>
     
     <script src="util.js"></script>
