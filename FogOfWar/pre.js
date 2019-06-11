@@ -244,6 +244,11 @@ function polygonListToPointList(polygonList) {
 
 function drawAllRayVertex(canvas, ctx, point, polygonList, sort = true) {
     let rays = [];
+    // for (const polygon of polygonList) {
+    //     for (const vertex of polygon.points) {
+    //         rays.push(vertex.minus(point));
+    //     }
+    // }
     rays = polygonListToPointList(polygonList).map(p => p.minus(point));
     rays = rays.flatMap(r => ([r.rotate(.00001), r.rotate(-.00001)]));
     if (sort) rays.sort((a, b) => a.angleTo(b));
@@ -251,7 +256,7 @@ function drawAllRayVertex(canvas, ctx, point, polygonList, sort = true) {
 }
 
 function redraw(canvas, ctx, polygonList) {
-    ctx.fillStyle = '#222';
+    ctx.fillStyle = '#333';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (const polygon of polygonList) {
         polygon.draw(canvas, ctx);

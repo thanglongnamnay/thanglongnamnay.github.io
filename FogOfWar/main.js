@@ -1,25 +1,29 @@
 'use strict';
-const $ = id => document.getElementById(id);
+import Util from './util-module.js';
+import Vector from './Vector.js';
+import Polygon from './Polygon.js';
 const scale = 2;
+const util = Util(scale);
+const $ = id => document.getElementById(id);
 const figureCanvasList = document.getElementsByClassName('figure-canvas');
 const workers = [];
 let polygonList = [];
-const rect = Polygon(randomColor(), [Vector(0, 0), Vector(0, .2), Vector(.2, .2), Vector(.2, 0)]);
+const rect = Polygon(util.randomColor(), [Vector(0, 0), Vector(0, .2), Vector(.2, .2), Vector(.2, 0)]);
 polygonList.push(rect.move(Vector(.1, .1)), rect.move(Vector(.6, .4)), rect.move(Vector(.2, .5)))
-// polygonList.push(Polygon(randomColor(), [Vector(.2, 0), Vector(0, .2)]).move(Vector(.3, .3)));
+// polygonList.push(Polygon(util.randomColor(), [Vector(.2, 0), Vector(0, .2)]).move(Vector(.3, .3)));
 
 
 for (let i = 0; i < figureCanvasList.length; ++i) {
     // ctxList.push(figureCanvasList[i].getContext('2d'));
     const offscreen = figureCanvasList[i].transferControlToOffscreen();
-    workers.push(new Worker('worker2.js'));
+    workers.push(new Worker('worker.js'));
     workers[i].postMessage({
         index: i, 
         offscreen, 
         polygonList: polygonList.map(poly => poly.toObject())
     }, [offscreen]);
 
-    figureCanvasList[i].onmousemove = throttle(handleMouseMove(i), 15);
+    figureCanvasList[i].onmousemove = util.throttle(handleMouseMove(i), 15);
     figureCanvasList[i].onclick = handleMouseClick(i);
 }
 const lastWorkerIndex = figureCanvasList.length - 1;
@@ -40,14 +44,14 @@ $('random-button').onclick = lastWorker.onmessage = e => {
 function handleMouseMove(i) {
     return function(e) {
         e.preventDefault();
-        workers[i].postMessage({index: i, type:'move', e: getXY(e)});
+        workers[i].postMessage({index: i, type:'move', e: util.getXY(e)});
     }
 }
 
 function handleMouseClick(i) {
     return function(e) {
         e.preventDefault();
-        workers[i].postMessage({index: i, type:'click', e: getXY(e)});
+        workers[i].postMessage({index: i, type:'click', e: util.getXY(e)});
     }
 }
 
@@ -79,6 +83,6 @@ function randomPolygons() {
         for (let j = 0; j < size; ++j) {
             points.push(Vector(Math.random(), Math.random()));
         }
-        polygonList.push(Polygon(randomColor(), points));
+        polygonList.push(Polygon(util.randomColor(), points));
     }
 }
