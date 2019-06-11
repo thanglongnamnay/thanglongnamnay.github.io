@@ -1,4 +1,5 @@
 'use strict';
+import Vector from './Vector.js'
 export default function Polygon(color, points) {
     function draw(canvas, ctx) {
         const pointsW = points.map(p => p.toWorld(canvas));
