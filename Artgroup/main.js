@@ -20,18 +20,14 @@
 	penSizeInput.max = scale * 12;
 	penSizeInput.step = scale;
 	penSizeInput.value = scale * 4;
-	// const ctx = canvas.getContext('2d');
 	let drawing = false, x, y, penSize = penSizeInput.value, color = penColorInput.value;
 	penSizeInput.onchange = e => {
-		// ctx.lineWidth = e.target.value;
 		penSize = e.target.value;
 		penSizeLabel.innerText = `Pen's size ${e.target.value} `;
 	};
 	penColorInput.onchange = e => {
 		color = e.target.value;
 	};
-	// ctx.lineJoin = "round";
-	// ctx.lineWidth = penSizeInput.value;
 	btnDownload.onclick = e => {
 		const imgUrl = canvas.toDataURL('image/png');
 		e.target.href = imgUrl;
@@ -101,7 +97,8 @@
 		pVoteClear.innerText = `Agree: ${data.agree}. Disagree: ${data.disagree}`;
 	})
 	socket.on('clear', () => {
-		worker.postMessage('clear');
+		if (worker) worker.postMessage('clear');
+		else ctx.clearRect(0, 0, canvas.width, canvas.height);
 		pVoteClear.innerText = '';
 		hideVoteBtns(true);
 		socket.emit('cleared');
