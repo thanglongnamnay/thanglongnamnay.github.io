@@ -7,7 +7,7 @@ let canvas, ctx;
 const handleMouseMove = [], handleMouseClick = [], handleKeyUp = [];
 
 let polygonList = [];
-const canvasRect = Polygon('#eee', [Vector(0, 0), Vector(1, 0), Vector(1, 1), Vector(0, 1)]);
+let canvasRect;
 
 self.onmessage = e => {
     const i = e.data.index;
@@ -15,11 +15,13 @@ self.onmessage = e => {
         if (e.data.offscreen) {
     		canvas = e.data.offscreen;
     		ctx = canvas.getContext('2d');
+            const wph = canvas.width / canvas.height;
+            canvasRect = Polygon('#eee', [Vector(0, 0), Vector(wph, 0), Vector(wph, 1), Vector(0, 1)]);
         }
         handleApply(e.data.polygonList);
         if (i < 8) {
-            handleMouseClick[i] && handleMouseClick[i]({ x: canvas.width / 2, y: canvas.height / 2 });
-            handleMouseMove[i] && handleMouseMove[i]({ x: canvas.width / 2, y: canvas.height / 2 });
+            handleMouseClick[i] && handleMouseClick[i]({ x: canvas.height / 2, y: canvas.height / 2 });
+            handleMouseMove[i] && handleMouseMove[i]({ x: canvas.height / 2, y: canvas.height / 2 });
         }
 	} else{
         switch (e.data.type) {
@@ -48,7 +50,7 @@ self.onmessage = e => {
 handleMouseMove[0] = function(e) {
     redraw(canvas, ctx, polygonList);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     drawPoint(canvas, ctx, dotColor, point);
 }
 
@@ -56,7 +58,7 @@ handleMouseMove[1] = handleMouseClick[1] = function(e) {
     redraw(canvas, ctx, polygonList);
     const rays = getRays(60);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     const big = drawAllRayIntersection(canvas, ctx, point, polygonList, rays);
     Polygon('#eee', big).draw(canvas, ctx);
     big.forEach(p => drawRay(canvas, ctx, lineColor, point, p.minus(point)));
@@ -68,7 +70,7 @@ handleMouseMove[2] = handleMouseClick[2] = function(e) {
     redraw(canvas, ctx, polygonList);
     const rays = getRays(60);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     const big = drawAllRayIntersection(canvas, ctx, point, polygonList, rays);
     Polygon('#eee', big).draw(canvas, ctx);
     drawPoint(canvas, ctx, dotColor, point);
@@ -80,7 +82,7 @@ handleMouseClick[3] = function(e) {
     redraw(canvas, ctx, polygonList);
     const rays = getRays(6e3);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     const big = drawAllRayIntersection(canvas, ctx, point, polygonList, rays);
     Polygon('#eee', big).draw(canvas, ctx);
     drawPoint(canvas, ctx, dotColor, point);
@@ -89,7 +91,7 @@ handleMouseClick[3] = function(e) {
 handleMouseMove[4] = function(e) {
     redraw(canvas, ctx, polygonList);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     const big = drawAllRayVertex(canvas, ctx, point, polygonList, false);
     // const big = drawAllRayVertex(canvas, ctx, point, [...polygonList, canvasRect]);
     Polygon('#eee', big).draw(canvas, ctx);
@@ -101,7 +103,7 @@ handleMouseMove[4] = function(e) {
 handleMouseMove[5] = function(e) {
     redraw(canvas, ctx, polygonList);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     const big = drawAllRayVertex(canvas, ctx, point, polygonList);
     // const big = drawAllRayVertex(canvas, ctx, point, [...polygonList, canvasRect]);
     Polygon('#eee', big).draw(canvas, ctx);
@@ -113,7 +115,7 @@ handleMouseMove[5] = function(e) {
 handleMouseMove[6] = function(e) {
     redraw(canvas, ctx, polygonList);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     // const big = drawAllRayVertex(canvas, ctx, point, polygonList);
     const big = drawAllRayVertex(canvas, ctx, point, [...polygonList, canvasRect]);
     Polygon('#eee', big).draw(canvas, ctx);
@@ -125,7 +127,7 @@ handleMouseMove[6] = function(e) {
 handleMouseMove[7] = function(e) {
     redraw(canvas, ctx, polygonList);
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     const big = drawAllRayVertex(canvas, ctx, point, [...polygonList, canvasRect]);
     Polygon('#eee', big).draw(canvas, ctx);
     drawPoint(canvas, ctx, dotColor, point);
@@ -138,7 +140,7 @@ let drawing = false,
 
 handleMouseClick[8] = function(e) {
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     currentPolygon.addPoints(point);
     nextPolygon.points[nextPolygon.points.length - 1] = point;
     nextPolygon.addPoints(point);
@@ -148,7 +150,7 @@ handleMouseClick[8] = function(e) {
 
 handleMouseMove[8] = function(e) {
     const {x, y} = e;
-    const point = Vector(x / canvas.width, y / canvas.height);
+    const point = Vector(x / canvas.height, y / canvas.height);
     redraw(canvas, ctx, customPolygonList);
     if (drawing) {
         nextPolygon.points[nextPolygon.points.length - 1] = point;
@@ -156,7 +158,7 @@ handleMouseMove[8] = function(e) {
     } else {
         redraw(canvas, ctx, customPolygonList);
         const {x, y} = e;
-        const point = Vector(x / canvas.width, y / canvas.height);
+        const point = Vector(x / canvas.height, y / canvas.height);
         const big = drawAllRayVertex(canvas, ctx, point, [...customPolygonList, canvasRect]);
         Polygon('#eee', big).draw(canvas, ctx);
     }

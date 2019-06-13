@@ -7,8 +7,9 @@ const util = Util(scale);
 const $ = id => document.getElementById(id);
 const canvasList = document.getElementsByClassName('figure-canvas');
 let polygonList = [];
-const rect = Polygon(util.randomColor(), [Vector(0, 0), Vector(0, .2), Vector(.2, .2), Vector(.2, 0)]);
-polygonList.push(rect.move(Vector(.1, .1)), rect.move(Vector(.6, .4)), rect.move(Vector(.2, .5)))
+let wph = canvasList[0].width / canvasList[0].height;
+const rect = Polygon(util.randomColor(), [Vector(0, 0), Vector(0, .2), Vector(.3, .2), Vector(.3, 0)]);
+polygonList.push(rect.move(Vector(.1 * wph, .1)), rect.move(Vector(.6 * wph, .4)), rect.move(Vector(.2 * wph, .5)))
 const workers = [];
 for (let i = 0; i < canvasList.length; ++i) {
     // ctxList.push(canvasList[i].getContext('2d'));
@@ -73,7 +74,7 @@ function randomPolygons() {
         const points = [];
         const size = Math.random() * 3 + 2 >> 0;
         for (let j = 0; j < size; ++j) {
-            points.push(Vector(Math.random(), Math.random()));
+            points.push(Vector(Math.random() * wph, Math.random()));
         }
         polygonList.push(Polygon(util.randomColor(), points));
     }

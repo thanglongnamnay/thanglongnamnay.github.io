@@ -49,7 +49,7 @@ export default function Vector(x, y) {
         return Vector(cosA * x - sinA * y, sinA * x + cosA * y);
     }
     function toWorld(canvas) {
-        return Vector(x * canvas.width >> 0, y * canvas.height >> 0)
+        return Vector(x * canvas.height >> 0, y * canvas.height >> 0)
     }
     return {
         x,

@@ -93,7 +93,10 @@ function drawRay(canvas, ctx, color, point, direction) {
 }
 
 function getPointsOnRay(point, direction) {
-    return {point1:point, point2: point.plus(direction.normalized().mult(2))};
+    return {
+        point1:point, 
+        point2: point.plus(direction.normalized().mult(5))
+    };
 }
 
 function checkLineIntersection(point1Start, point1End, point2Start, point2End) {

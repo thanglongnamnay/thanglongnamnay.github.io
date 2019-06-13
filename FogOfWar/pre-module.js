@@ -89,7 +89,7 @@ function drawRay(canvas, ctx, color, point, direction) {
     return {point1:point, point2};
 }
 function getPointsOnRay(point, direction) {
-    return {point1:point, point2: point.plus(direction.normalized().mult(2))};
+    return {point1:point, point2: point.plus(direction.normalized().mult(10))};
 }
 function checkLineIntersection(point1Start, point1End, point2Start, point2End) {
     // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite) and booleans for whether line segment 1 or line segment 2 contain the point
