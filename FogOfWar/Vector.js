@@ -15,7 +15,7 @@ export default function Vector(x, y) {
         return Vector(x / eulerDistant, y / eulerDistant);
     }
     function angle() {
-        angleTo(Vector(1, 0));
+        return -Math.atan2(y , x);
     }
     function plus(v) {
         return Vector(x + v.x, y + v.y);

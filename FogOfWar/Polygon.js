@@ -27,7 +27,7 @@ export default function Polygon(color, points) {
     }
     return {
         color,
-        points,
+        get points() { return points; },
         draw,
         move,
         addPoints,

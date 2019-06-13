@@ -21,7 +21,7 @@ for (let i = 0; i < canvasList.length; ++i) {
         polygonList: polygonList.map(poly => poly.toObject())
     }, [offscreen]);
 
-    canvasList[i].onmousemove = util.throttle(handleMouseMove(i), 15);
+    canvasList[i].onmousemove = handleMouseMove(i);
     canvasList[i].onclick = handleMouseClick(i);
 }
 const lastWorkerIndex = canvasList.length - 1;
@@ -38,6 +38,11 @@ $('random-button').onclick = lastWorker.onmessage = e => {
             polygonList: polygonList.map(poly => poly.toObject())
         });
     }
+}
+$('switch-mode-6k').onclick = e => {
+    e.preventDefault();
+    console.log(e);
+    workers[3].postMessage({index: 3, type:'switch-mode-6k', e: 1})
 }
 function handleMouseMove(i) {
     return function(e) {

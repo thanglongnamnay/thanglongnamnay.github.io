@@ -42,7 +42,7 @@
 
         <blockquote><p>Ê, sao tôi chả thấy gì cả?</p></blockquote>
 
-        <p>Ông phải click, nếu tôi cập nhật khi ông di chuột thì máy ông sẽ lăn ra chết (thực ra là không nếu máy ông có 2 core, và nhiều Ram, nhưng mà nó vẫn rất chậm). </p>
+        <p>Ông phải click, nếu tôi cập nhật khi ông di chuột thì máy tôi sẽ lăn ra chết (thực ra là không nhưng mà nó rất chậm). Còn nếu máy ông mạnh thì click vào <a id="switch-mode-6k">đây</a></p>
 
         <blockquote><p>Ok, vậy nếu ít tia thì xấu, nhiều tia thì chậm thì phải làm thế nào?</p></blockquote>
 
@@ -75,7 +75,7 @@
 
         <canvas class="figure-canvas" width="1600" height="900"></canvas>
 
-        <p>Cùng với Play Ground cho các bạn. Chuột phải để vẽ chướng ngại vật, Enter để nhấc bút.</p>
+        <p>Cùng với Play Ground cho các bạn. Chuột phải để vẽ chướng ngại vật, Enter để nhấc bút. PS: Hình càng phức tạp, càng có nhiều điểm tự cắt thì thuật toán thứ hai sẽ chạy càng chậm, đến 1 lúc nào đó thì nó sẽ chậm hơn thuật toán thứ nhất (với 6000 tia). Khi đó ta sẽ có 2 cách xử lý: 1 là đổi sang thuật toán thứ nhất, 2 là cải tiến thuật toán thứ hai, 3 là tăng cấu hình yêu cầu lên RTX2080.</p>
         <p>
             <button id="apply-button" title="Áp dụng chướng ngại vật này cho các hình ở trên">Áp dụng</button>
             <button id="reset-button" title="cuộc đời">Làm lại</button>
@@ -93,6 +93,6 @@
         <p>Tôi chưa làm trên 3D, vì trên đó mấy cái ánh sáng được lo hết bởi engine rồi, mình chả có việc gì để làm cả. Nhưng mà tư tưởng chắc là cũng như vậy, có thể họ dùng cách thứ nhất, vì cách đó rất chậm nếu làm trên CPU, nhưng mà sẽ rất nhanh trên GPU. Và như thế là chúng ta có Ray Tracing 🙃.</p>
     </main>
     
-    <script type="module" src="main.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

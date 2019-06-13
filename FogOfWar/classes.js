@@ -15,7 +15,7 @@ function Vector(x, y) {
         return Vector(x / eulerDistant, y / eulerDistant);
     }
     function angle() {
-        angleTo(Vector(1, 0));
+        return angleTo(Vector(1, 0));
     }
     function plus(v) {
         return Vector(x + v.x, y + v.y);

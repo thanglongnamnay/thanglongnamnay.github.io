@@ -1,7 +1,12 @@
 'use strict';
 function Util(scale) {
     function randomColor() {
-        return '#' + (Math.random() * 256 * 256 * 256 >> 0).toString(16);
+        return '#' + randomShade() + randomShade() + randomShade();
+    }
+    function randomShade() {
+        let s = (Math.random() * 256 >> 0).toString(16);
+        if (s.length < 2) s = '0' + s;
+        return s;
     }
     function getXY(e) {
         return e.offsetX ? ({
@@ -16,6 +21,7 @@ function Util(scale) {
     	return x;
     }
     function throttle(fn, delay) {
+        if (!fn) return fn;
         let start = Date.now() - delay;
         return function (...args) {
             if (Date.now() - start >= delay) {

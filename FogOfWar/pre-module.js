@@ -30,52 +30,6 @@ function drawTriangles(canvas, ctx, borderColor, fillColor, points, center) {
         drawPolygon(canvas, ctx, borderColor, fillColor, [points[i], points[(i + 1) % size], center]);
     }
 }
-function getBorderIntersect(point, direction) {
-    const a = point.x,
-        b = point.y,
-        c = direction.x,
-        d = direction.y; 
-    if (d === 0 && c === 0) throw 'wtf mate?';
-    // (a;b) (c;d)
-    if (c === 0) {
-        if (d > 0) {
-            // intersect with y = 1; y = c / d * y + b - ac / d
-            return Vector(c / d + b - a * c / d, 1);
-        }
-        else {
-            // intersect with y = 0; y = c / d * y + b - ac / d
-            return Vector(b - a * c / d, 0);
-        }
-    } else if (d == 0) {
-        if (d > 0) {
-            return Vector(1, d / c + a - b * d / c);
-        }
-        else {
-            return Vector(0, a - b * d / c);
-        }
-    } else {
-        let y0 = calY(a, b, c, d, 0),
-            y1 = calY(a, b, c, d, 1),
-            x0 = calX(a, b, c, d, 0),
-            x1 = calX(a, b, c, d, 1);
-
-        if (c > 0) y0 = 2;
-        else y1 = 2;
-        if (d > 0) x0 = 2;
-        else x1 = 2;
-
-        if (y0 >= 0 && y0 <= 1) return Vector(0, y0);
-        if (y1 >= 0 && y1 <= 1) return Vector(1, y1);
-        if (x0 >= 0 && x0 <= 1) return Vector(x0, 0);
-        if (x1 >= 0 && x1 <= 1) return Vector(x1, 1);
-    }
-}
-function calY(a, b, c, d, x) {
-    return d / c * x + a - b * d / c;
-}
-function calX(a, b, c, d, y) {
-    return c / d * y + b - a * c / d;
-}
 function drawRay(canvas, ctx, color, point, direction) {
     const point2 = point.plus(direction.normalized().mult(2));
     const point2W = point2.toWorld(canvas);
@@ -90,6 +44,7 @@ function drawRay(canvas, ctx, color, point, direction) {
 }
 function getPointsOnRay(point, direction) {
     return {point1:point, point2: point.plus(direction.normalized().mult(10))};
+    // return {point1:point, point2: point.plus(direction)};
 }
 function checkLineIntersection(point1Start, point1End, point2Start, point2End) {
     // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite) and booleans for whether line segment 1 or line segment 2 contain the point
@@ -168,34 +123,30 @@ function getRays(rayNumber) {
 function drawAllRayIntersection(canvas, ctx, point, polygonList, rays) {
     const intersections = [];
     for (const ray of rays) {
-        // const {point1, point2} = drawRay(canvas, ctx, lineColor, point, ray);
-        const {point1, point2} = getPointsOnRay(point, ray);
-        let closetPoint = point2;
+        let {point1, point2} = getPointsOnRay(point, ray);
         for (const polygon of polygonList) {
             const polygonPoints = polygon.points;
             const pointNumber = polygonPoints.length;
             for (let i = 0; i < pointNumber; ++i) {
                 const point3 = polygonPoints[i], point4 = polygonPoints[(i + 1) % pointNumber];
                 const intersection = checkLineIntersection(point1, point2, point3, point4);
-                if (intersection.onLine1 && intersection.onLine2) {
-                    if (point.distantTo(intersection.position) < point.distantTo(closetPoint)) {
-                        closetPoint = intersection.position;
-                    }
-                }
+                if (intersection.onLine1 
+                    && intersection.onLine2
+                    && point.distantTo(intersection.position) < point.distantTo(point2)
+                    ) { point2 = intersection.position; }
             }
         }
-        if (closetPoint) {
-            intersections.push(closetPoint);
-        }
+        intersections.push(point2);
     }
     return intersections;
 }
 function polygonPairToPointList(p1, p2) {
     const pointList = [];
-    for (let x1 = 0; x1 < p1.points.length; ++x1) {
-        const y1 = (x1 + 1) % p1.points.length;
-        for (let x2 = 0; x2 < p2.points.length; ++x2) {
-            const y2 = (x2 + 1) % p2.points.length;
+    const p1Len = p1.points.length, p2Len = p2.points.length;
+    for (let x1 = 0; x1 < p1Len; ++x1) {
+        const y1 = (x1 + 1) % p1Len;
+        for (let x2 = 0; x2 < p2Len; ++x2) {
+            const y2 = (x2 + 1) % p2Len;
             const intersection = checkLineIntersection(p1.points[x1], p1.points[y1], p2.points[x2], p2.points[y2])
             if (intersection.onLine1 && intersection.onLine2) {
                 pointList.push(intersection.position);
@@ -230,14 +181,8 @@ function polygonListToPointList(polygonList) {
     }
     return pointList;
 }
-function drawAllRayVertex(canvas, ctx, point, polygonList, sort = true) {
-    let rays = [];
-    // for (const polygon of polygonList) {
-    //     for (const vertex of polygon.points) {
-    //         rays.push(vertex.minus(point));
-    //     }
-    // }
-    rays = polygonListToPointList(polygonList).map(p => p.minus(point));
+function drawAllRayVertex(canvas, ctx, point, pointList, polygonList, sort = true) {
+    let rays = pointList.map(p => p.minus(point));
     rays = rays.flatMap(r => ([r.rotate(.00001), r.rotate(-.00001)]));
     if (sort) rays.sort((a, b) => a.angleTo(b));
     return drawAllRayIntersection(canvas, ctx, point, polygonList, rays);
@@ -254,9 +199,6 @@ export {
     drawPoint,
     drawPolygon,
     drawTriangles,
-    getBorderIntersect,
-    calY,
-    calX,
     drawRay,
     getPointsOnRay,
     checkLineIntersection,

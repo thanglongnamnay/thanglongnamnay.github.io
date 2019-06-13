@@ -31,54 +31,6 @@ function drawTriangles(canvas, ctx, borderColor, fillColor, points, center) {
     }
 }
 
-function getBorderIntersect(point, direction) {
-    const a = point.x,
-        b = point.y,
-        c = direction.x,
-        d = direction.y; 
-    if (d === 0 && c === 0) throw 'wtf mate?';
-    // (a;b) (c;d)
-    if (c === 0) {
-        if (d > 0) {
-            // intersect with y = 1; y = c / d * y + b - ac / d
-            return Vector(c / d + b - a * c / d, 1);
-        }
-        else {
-            // intersect with y = 0; y = c / d * y + b - ac / d
-            return Vector(b - a * c / d, 0);
-        }
-    } else if (d == 0) {
-        if (d > 0) {
-            return Vector(1, d / c + a - b * d / c);
-        }
-        else {
-            return Vector(0, a - b * d / c);
-        }
-    } else {
-        let y0 = calY(a, b, c, d, 0),
-            y1 = calY(a, b, c, d, 1),
-            x0 = calX(a, b, c, d, 0),
-            x1 = calX(a, b, c, d, 1);
-
-        if (c > 0) y0 = 2;
-        else y1 = 2;
-        if (d > 0) x0 = 2;
-        else x1 = 2;
-
-        if (y0 >= 0 && y0 <= 1) return Vector(0, y0);
-        if (y1 >= 0 && y1 <= 1) return Vector(1, y1);
-        if (x0 >= 0 && x0 <= 1) return Vector(x0, 0);
-        if (x1 >= 0 && x1 <= 1) return Vector(x1, 1);
-    }
-}
-
-function calY(a, b, c, d, x) {
-    return d / c * x + a - b * d / c;
-}
-function calX(a, b, c, d, y) {
-    return c / d * y + b - a * c / d;
-}
-
 function drawRay(canvas, ctx, color, point, direction) {
     const point2 = point.plus(direction.normalized().mult(2));
     const point2W = point2.toWorld(canvas);
@@ -195,9 +147,7 @@ function drawAllRayIntersection(canvas, ctx, point, polygonList, rays) {
                 }
             }
         }
-        if (closetPoint) {
-            intersections.push(closetPoint);
-        }
+        intersections.push(closetPoint);
     }
     return intersections;
 }
@@ -245,14 +195,8 @@ function polygonListToPointList(polygonList) {
     return pointList;
 }
 
-function drawAllRayVertex(canvas, ctx, point, polygonList, sort = true) {
-    let rays = [];
-    // for (const polygon of polygonList) {
-    //     for (const vertex of polygon.points) {
-    //         rays.push(vertex.minus(point));
-    //     }
-    // }
-    rays = polygonListToPointList(polygonList).map(p => p.minus(point));
+function drawAllRayVertex(canvas, ctx, point, pointList, polygonList, sort = true) {
+    let rays = pointList.map(p => p.minus(point));
     rays = rays.flatMap(r => ([r.rotate(.00001), r.rotate(-.00001)]));
     if (sort) rays.sort((a, b) => a.angleTo(b));
     return drawAllRayIntersection(canvas, ctx, point, polygonList, rays);
