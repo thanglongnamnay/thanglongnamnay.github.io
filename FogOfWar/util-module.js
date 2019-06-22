@@ -30,6 +30,16 @@ function Util(scale) {
             }
         }
     }
+    function debounce(fn, delay) {
+        if (!fn) return fn;
+        let start;
+        return function (...args) {
+            if (!start || Date.now() - start >= delay) {
+                fn.apply(this, args);
+            }
+            start = Date.now();
+        }
+    }
     return {
         randomColor,
         getXY,

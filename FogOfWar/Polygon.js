@@ -23,7 +23,7 @@ export default function Polygon(color, points) {
         return ({
             color,
             points: points.map(p => ({x: p.x, y: p.y}))
-        })
+        });
     }
     return {
         color,

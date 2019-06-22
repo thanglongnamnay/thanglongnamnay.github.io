@@ -1,0 +1,20 @@
+{"dir" : "ltr",
+    "lang" : "en",
+    "name" : "Thanglongnamnay",
+    "scope" : "/",
+    "display" : "fullscreen",
+    "start_url" : "https://thanglongnamnay.me/",
+    "short_name" : "Thanglongnamnay",
+    "theme_color" : "transparent",
+    "description" : "Những dự án thời đại học của bạn Long",
+    "orientation" : "any",
+    "background_color" : "transparent",
+    "related_applications" : "",
+    "prefer_related_applications" : "false",
+    "generated" : "true",
+    "icons" : [
+        {
+            "src": "https://thanglongnamnay.me/icon.png",
+            "sizes": "256x256"
+        }
+    ]}
