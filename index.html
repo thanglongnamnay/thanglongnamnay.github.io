@@ -3,7 +3,6 @@
 <meta name="description" content="Những dự án thời đại học của bạn Long">
 <link rel="shortcut icon" type="image/png" href="/icon.png"/>
 <title>Thanglongnamnay</title>
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="dns-prefetch" href="https://scontent.xx.fbcdn.net">
@@ -27,8 +26,8 @@
 <script>
 	let font = document.createElement('link');
 	font.rel = 'stylesheet';
-	foo.href = `https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap`;
-	document.head.appendChild(foo);
+	font.href = `https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap`;
+	document.head.appendChild(font);
 	let image = document.getElementById('fb-avatar');
 	fetch(`https://graph.facebook.com/100003406357473/picture?type=large`)
 		.then(res => res.blob())
