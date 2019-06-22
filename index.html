@@ -6,8 +6,9 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 <link rel="manifest" href="/manifest.webmanifest">
+<link rel="dns-prefetch" href="https://scontent.xx.fbcdn.net">
 <header>
-	<a href="https://fb.com/tlsta"><img id="fb-avatar" title="My facebook" alt="Facebook avatar" width="100" height="100"></a>
+	<a href="https://fb.com/tlsta"><img id="fb-avatar" src="/avatar.png" title="My facebook" alt="Facebook avatar" width="100" height="100"></a>
 	<h1>VVelcum boys</h1>
 </header>
 <main><ul>
@@ -24,6 +25,10 @@
 </ul></main>
 <script src="sw-register.js"></script>
 <script>
+	let font = document.createElement('link');
+	font.rel = 'stylesheet';
+	foo.href = `https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap`;
+	document.head.appendChild(foo);
 	let image = document.getElementById('fb-avatar');
 	fetch(`https://graph.facebook.com/100003406357473/picture?type=large`)
 		.then(res => res.blob())
