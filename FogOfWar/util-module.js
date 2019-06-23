@@ -32,19 +32,21 @@ function Util(scale) {
     }
     function debounce(fn, delay) {
         if (!fn) return fn;
-        let start;
+        let timeout;
         return function (...args) {
-            if (!start || Date.now() - start >= delay) {
-                fn.apply(this, args);
+            if (timeout) {
+                clearTimeout(timeout);
             }
-            start = Date.now();
+            timeout = setTimeout(fn, delay, ...args);
         }
     }
     return {
+        set scale(v) { scale = v; },
         randomColor,
         getXY,
         round,
-        throttle
+        throttle,
+        debounce,
     }
 }
 export default Util;

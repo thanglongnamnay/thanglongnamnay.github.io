@@ -11,10 +11,17 @@ import {
     drawAllRayVertex,
     redraw
 } from './pre-module.js';
-const scale = 2;
-const util = Util(scale);
+const util = Util(2);
 const $ = id => document.getElementById(id);
 const canvasList = document.getElementsByClassName('figure-canvas');
+
+const handleResize = util.debounce(() => {
+    console.log('some');
+    util.scale = 1600 / canvasList[0].offsetWidth;
+}, 100);
+window.onresize = handleResize;
+handleResize();
+
 let wph = canvasList[0].width / canvasList[0].height;
 let polygonList = [];
 const rect = Polygon(util.randomColor(), [Vector(0, 0), Vector(0, .2), Vector(.2, .2), Vector(.2, 0)]);
@@ -25,12 +32,16 @@ const canvasRect = Polygon('#333', [Vector(-.5, -.5), Vector(wph + .5, -.5), Vec
 let polygonListViewport = [canvasRect, ...polygonList];
 let pointList = polygonListToPointList(polygonList);
 let pointListViewport = polygonListToPointList(polygonListViewport);
+
 const ctxList = [];
 const dotColor = '#d11', lineColor = '#ddd';
+
 for (let i = 0; i < canvasList.length; ++i) {
     ctxList.push(canvasList[i].getContext('2d'));
 }
+
 let handleMouseMove = [], handleMouseClick = [], handleKeyUp = [];
+
 handleMouseMove[0] = function(e) {
     const canvas = canvasList[0];
     const ctx = ctxList[0];

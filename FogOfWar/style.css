@@ -12,6 +12,11 @@ body {
   body {
     padding: 50px;
   }
+  canvas {
+    max-width: 800px;
+    display: block;
+    margin: 0 auto;
+  }
 }
 a {
   text-decoration: none;
@@ -41,4 +46,9 @@ blockquote {
   border-left: .25em solid #dfe2e5;
   color: #6a737d;
   padding: 0 1em;
+}
+canvas {
+  border: 1px black solid;
+  width: 100%;
+  cursor: crosshair;
 }
