@@ -87,11 +87,6 @@ section, article {
 	width: 100%;
 	margin: 5px 0;
 }
-#fb-avatar {
-	position: relative;
-	left: calc(50% - 50px);
-	border-radius: 50%;
-}
 @media all and (min-width: 800px) {
   /* Don't take all the space as readability is lost when line length
      goes past a certain size */
