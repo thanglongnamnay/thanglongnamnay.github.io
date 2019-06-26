@@ -58,7 +58,6 @@ button {
 	padding: 0.5rem 1rem;
 }
 button:hover, button:focus {
-	outline-style: hidden;
 	background: #2d82c0;
 }
 button:active {
@@ -70,10 +69,26 @@ button:disabled {
 section, article {
   display: block;
 }
-.back {
+#breadcrumb {
 	position: absolute;
 	top: 10px;
 	left: 10px;
+}
+#breadcrumb ul {
+	margin: 0 auto;
+	display: flex;.
+}
+#breadcrumb li {
+	list-style-type: none;
+}
+#breadcrumb li::before {
+    content: "/";
+}  
+#breadcrumb li:first-child::before{
+    content: "";
+}
+#breadcrumb a {
+	padding: 0 .25rem;
 }
 .number-input {
 	text-align: right;

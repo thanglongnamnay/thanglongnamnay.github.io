@@ -1,5 +1,5 @@
 const M = 1000000007n;
-const randomGenerator = LCG(23n, 0n, M, 69n);
+const randomGenerator = LCG(23n, 0n, M, BigInt(Date.now()) % M);
 
 self.onmessage = e => {
 	let n = e.data;
