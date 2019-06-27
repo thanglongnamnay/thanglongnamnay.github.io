@@ -11,7 +11,6 @@ breadcrumb.appendChild(ul);
 document.body.appendChild(breadcrumb);
 
 function toLink(hrefs) {
-	console.log(hrefs);
 	const el = document.createElement('a');
 	if (hrefs.length === 1) {
 		el.href = `/`;

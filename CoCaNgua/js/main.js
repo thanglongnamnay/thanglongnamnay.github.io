@@ -546,7 +546,7 @@ function drawHomePage() {
     	<p class="game-title fontlarge">CỜ CÁ NGỰA</p>
     	<div class="gamemode fontmedium">
     		<a onclick="drawBoard(1)">⏵ 1 người đấu 3 máy</a> <br>
-    		<a onclick="drawBoard(0)">⏵ Xem 4 máy đấu với nhau</a>
+    		<a onclick="drawBoard(0)">⏵ Xem 4 máy đấu với nhau</a> <br>
             <label for="fast-mode">Quick mode: Ai chỉ thích quan tâm đến kết quả thì chọn cái này</label>
             <input type="checkbox" id="fast-mode">
     	</div>
