@@ -12,14 +12,14 @@ document.body.appendChild(breadcrumb);
 
 function toLink(hrefs) {
 	const el = document.createElement('a');
+	const li = document.createElement('li');
 	if (hrefs.length === 1) {
 		el.href = `/`;
 		el.textContent = 'Home';
-		return el;
+	} else {
+		el.href = hrefs.join(`/`);
+		el.textContent = hrefs[hrefs.length - 1];
 	}
-	el.href = hrefs.join(`/`);
-	el.textContent = hrefs[hrefs.length - 1];
-	const li = document.createElement('li');
 	li.appendChild(el);
 	return li;
 }

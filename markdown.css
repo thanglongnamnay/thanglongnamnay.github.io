@@ -1,0 +1,31 @@
+pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: var(--color-lightish);
+  border-radius: 3px;
+  tab-size: 4;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  word-break: normal;
+}
+code {
+  background-color: var(--color-lightish);
+  padding: .2em .4em;
+}
+blockquote {
+  border-left: .25em solid var(--color-darkish);
+  padding: 0 1em;
+}
+canvas {
+  border: 1px black solid;
+  width: 100%;
+  cursor: crosshair;
+}
+canvas {
+  max-width: 800px;
+  display: block;
+  margin: 0 auto;
+}

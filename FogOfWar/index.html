@@ -7,17 +7,19 @@
     <link rel="shortcut icon" type="image/png" href="/icon.png"/>
     <link rel="stylesheet" href="/style.css">
     <title>Fog of war</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/markdown.css">
 </head>
 <body>
-    <header><h1>Một chút về ánh sáng trong làm game.</h1></header>
-    <main>
-        <p>Hôm nay đang làm một game (3d) thì tự nhiên mình nghĩ đến việc implement cái <a href="https://dota2.gamepedia.com/Vision#Fog_of_War">Fog of War</a> như ở trong Doto.
-        Thì mình bắt đầu từ bài toán ở trong 2D. Trước tiên ta phải chuẩn bị một mặt phẳng, trên đó có một vài chướng ngại vật mà từ một vị trí bất kỳ thì người chơi sẽ không thể nhìn thấy những gì bị khuất bởi các chướng ngại vật đó. Như sau:</p>
+    <main class="stack"> 
+        <h1>Một chút về ánh sáng trong làm game.</h1>
+        <p>Hôm nay đang làm một game (3d) thì tự nhiên mình nghĩ đến việc implement cái <a href="https://dota2.gamepedia.com/Vision#Fog_of_War">Fog of War</a> như ở trong Doto.</p>
+
+        <h2>Đơn giản hoá</h2>
+        <p>Thì mình bắt đầu từ bài toán ở trong 2D. Trước tiên ta phải chuẩn bị một mặt phẳng, trên đó có một vài chướng ngại vật mà từ một vị trí bất kỳ thì người chơi sẽ không thể nhìn thấy những gì bị khuất bởi các chướng ngại vật đó. Như sau:</p>
 
         <canvas class="figure-canvas" width="1600" height="900"></canvas>
 
-        <p>Thì cách đầu tiên nghĩ ngay đến, bắt nguồn từ cách mắt người hoạt động, là từ vị trí người chơi, vẽ các tia bắn  ra xung quanh, các tia cách đều nhau, gặp chướng ngại vật thì dừng lại tại điểm tiếp xúc. Khi đó ta sẽ được tập hợp các điểm tiếp xúc mà ở đó tầm nhìn không thể đi xa hơn được nữa. Đối với các tia không gặp chướng ngại vật thì ta coi như điểm tiếp xúc của tia đó là ở xa vô cùng.
+        <p>Cách đầu tiên nghĩ ngay đến, bắt nguồn từ cách mắt người hoạt động, là từ vị trí người chơi, vẽ các tia bắn  ra xung quanh, các tia cách đều nhau, gặp chướng ngại vật thì dừng lại tại điểm tiếp xúc. Khi đó ta sẽ được tập hợp các điểm tiếp xúc mà ở đó tầm nhìn không thể đi xa hơn được nữa. Đối với các tia không gặp chướng ngại vật thì ta coi như điểm tiếp xúc của tia đó là ở xa vô cùng.
         Sau khi nối các điểm tiếp xúc đó lại với nhau thì ta sẽ được một đa giác, ta có thể dễ dàng chứng minh được mọi điểm trên các tia bắn ra từ vị trí người chơi và nằm trong đa giác trên thì đều nằm trong tầm nhìn. Do đó, khi số lượng tia xung quanh tiến đến vô cùng thì ta sẽ được một đa giác vô số cạnh biểu diễn tầm nhìn.
         Hình sau thể hiện giải thuật trên với 60 tia bắn đều ra xung quanh.</p>
 
@@ -37,12 +39,11 @@
 
         <blockquote><p>Ok, vậy nếu ít tia thì xấu, nhiều tia thì chậm thì phải làm thế nào?</p></blockquote>
 
+        <h2>Giải quyết vấn đề</h2>
         <p>Khi gặp một vấn đề về performance thì ta có 2 cách giải quyết:</p>
-
         <ol>
-        <li>Đổi sang máy xịn hơn.</li>
-
-        <li>Thay đổi thuật toán có độ phức tạp thời gian tốt hơn.</li>
+            <li>Đổi sang máy xịn hơn.</li>
+            <li>Thay đổi thuật toán có độ phức tạp thời gian tốt hơn.</li>
         </ol>
 
         <p>Tôi thích dùng cách trước hơn nên chúng ta sẽ dùng cách 2.
@@ -61,7 +62,8 @@
         Để giải quyết vấn đề này thì ta xét thêm 1 "chướng ngại vật" nữa là hình chữ nhật khung nhìn. Works like a charm.</p>
 
         <canvas class="figure-canvas" width="1600" height="900"></canvas>
-
+        
+        <h2>Những thứ cần cải thiện</h2>
         <p>Thuật toán trên chỉ làm việc khi các chướng ngại vật không đè lên nhau, và không có đa giác tự cắt. Do đó ta sẽ cải tiến nó một chút, trước khi xét các tia bắn vào đỉnh, ta xét thêm các đỉnh là giao điểm của 2 cạnh bất kỳ.  Và đây là kết quả cuối cùng.</p>
 
         <canvas class="figure-canvas" width="1600" height="900"></canvas>
