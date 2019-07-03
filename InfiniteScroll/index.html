@@ -1,25 +1,16 @@
-<meta charset="UTF-8">
+<html><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Mô phỏng infinite scroll, giống như của facebook.">
 <link rel="stylesheet" href="/style.css">
-<link rel="shortcut icon" type="image/png" href="/icon.png"/>
+<link rel="shortcut icon" type="image/png" href="/icon.png">
 <title>Infinite scroll</title>
-<style>
-	#images > * {
-		text-align: center;
-		display: block;
-		margin-left: auto;
-		margin-right: auto;
-	}
-</style>
-<main class="stack">
+
+</head><body><main class="stack">
 	<header>
 		<h1>Infinite scroll</h1>
-		<h2>Scroll down to see if you can reach the bottom.</h2>
 	</header>
-	<div id="images" class="stack"></div>
-	<div id="loading">Loading... (Pretending to async load resource)</div>
+	<div id="content">
+		<ul id="articles"><li><a href="v1">Infinite scroll</a> - Mô phỏng infinite scroll, giống như của facebook.</li><li><a href="v2">Infinite scroll</a> - Mô phỏng infinite scroll, giống như của facebook.</li></ul>
+	</div>
 </main>
-<script src="Vector.js"></script>
-<script src="main.js"></script>
-<script src="/breadcrumb.js"></script>
+<script src="/breadcrumb.js"></script></body></html>

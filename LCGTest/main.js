@@ -25,6 +25,7 @@ function drawChart() {
     const chart = new CanvasJS.Chart('chartContainer', {
         animationEnabled: true,
         zoomEnabled: true,
+        theme: "dark1",
         toolTip: {
             enabled: false,
         },

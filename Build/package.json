@@ -1,0 +1,11 @@
+{
+  "name": "Github-page",
+  "version": "1.0.0",
+  "description": "Nguyen Thang Long's Github page",
+  "main": "index.js",
+  "author": "nguyenthanglong",
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "^15.1.1"
+  }
+}
