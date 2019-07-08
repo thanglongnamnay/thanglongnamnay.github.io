@@ -1,13 +1,22 @@
 const fs = require('fs');
-const { join, basename } = require('path');
+var { minify } = require('html-minifier');
+const { join, basename, relative, sep } = require('path');
 const { JSDOM } = require("jsdom");
 
-const ROOT = join('..');
+const ROOT = join(__dirname, '..');
 
 const ignoredFolders = [
 	/\./,
-	/Build/
+	/Build/,
+	/commons/,
 ];
+const commonFolder = join(ROOT, 'commons');
+const commonFiles = {
+	css: ['style.css'],
+	js: ['breadcrumb.js'],
+};
+const commonMetas = `<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/png" href="/icon.png"/>`;
+
 const handleError = (cb = console.error) => err => {
 	if (err) cb(err);
 }
@@ -22,9 +31,6 @@ const getSubDirectories = source =>
 		.map(unary(basename))
 		.filter(isNotIgnored(ignoredFolders))
 
-const getIndexFile = source => new JSDOM(fs.readFileSync(join(source, 'index.html'), { encoding: 'utf8' }));
-
-const getElements = tag => file => file.window.document.querySelectorAll(tag);
 const getElement = tag => file => file.window.document.querySelector(tag);
 const getTitle = file => getElement('title')(file).textContent;
 const getDescription = file => getElement('meta[name="description"]')(file)
@@ -36,7 +42,7 @@ const getInfo = file => ({
 	description: getDescription(file)
 });
 
-const getLi = (source, folder) => new Promise((res, rej) => {
+const getLi = (source, folder) => new Promise(res => {
 	const indexFile = join(source, folder, 'index.html');
 	JSDOM.fromFile(indexFile).then(dom => {
 		const info = getInfo(dom);
@@ -53,19 +59,39 @@ const getLi = (source, folder) => new Promise((res, rej) => {
 	});
 });
 
-const main = async root => {
+const relativePosix = (src, des) => relative(src, des).split(sep).join('/');
+
+const getStyleHTML = source => `<link rel="stylesheet" href="/${relativePosix(ROOT, source)}">`;
+const getScriptHTML = source => `<script src="/${relativePosix(ROOT, source)}"></script>`;
+
+const minifyOptions = {
+	collapseWhitespace: 1,
+	conservativeCollapse: 1,
+}
+
+const main = async source => {
 	try {
-		const template = await JSDOM.fromFile(join(root, 'template.html'));
-		const subDirs = getSubDirectories(root);
-		subDirs.forEach(dir => main(join(root, dir)));
+		const template = await JSDOM.fromFile(join(source, 'template.html'));
+		const subDirs = getSubDirectories(source);
+		subDirs.forEach(dir => main(join(source, dir)));
 
 		const { document } = template.window;
+		document.head.innerHTML += commonMetas;
+		document.head.innerHTML += commonFiles.css.map(name => getStyleHTML(join(commonFolder, name))).join('')
+		document.body.innerHTML += commonFiles.js.map(name => getScriptHTML(join(commonFolder, name))).join('');
+
 		const ul = document.getElementById('articles');
 
-		const lis = await Promise.all(subDirs.map(folder => getLi(root, folder)));
-		lis.forEach(li => ul.appendChild(li));
-		fs.writeFile(join(root, 'index.html'), template.serialize(), handleError());
-		console.log('Consider it done.', root);
+		if (ul) {
+			(await Promise.all(subDirs.map(folder => getLi(source, folder))))
+				.forEach(li => ul.appendChild(li));
+		}
+
+		fs.writeFile(
+			join(source, 'index.html'), 
+			minify(template.serialize(), minifyOptions), 
+			handleError(),
+		);
 	} catch(e) {
 		console.error(e);
 	}

@@ -95,6 +95,10 @@ button:disabled {
 section, article {
   display: block;
 }
+img {
+	background-image: url('/commons/No_picture_available.png');
+	background-size: cover;
+}
 #breadcrumb {
 	position: absolute;
 	top: 10px;
@@ -138,7 +142,8 @@ section, article {
 	margin: 5px 0;
 }
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8;
+    height: 8;
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 2.5px;

@@ -20,11 +20,6 @@ blockquote {
   padding: 0 1em;
 }
 canvas {
-  border: 1px black solid;
-  width: 100%;
-  cursor: crosshair;
-}
-canvas {
   max-width: 800px;
   display: block;
   margin: 0 auto;
