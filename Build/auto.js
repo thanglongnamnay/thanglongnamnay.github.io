@@ -1,5 +1,5 @@
 const fs = require('fs');
-var { minify } = require('html-minifier');
+const { minify} = require('html-minifier');
 const { join, basename, relative, sep } = require('path');
 const { JSDOM } = require("jsdom");
 
@@ -15,7 +15,7 @@ const commonFiles = {
 	css: ['style.css'],
 	js: ['breadcrumb.js'],
 };
-const commonMetas = `<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/png" href="/icon.png"/>`;
+const commonMetas = `<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/png" href="/commons/icon.png"/>`;
 
 const handleError = (cb = console.error) => err => {
 	if (err) cb(err);
@@ -73,7 +73,7 @@ const main = async source => {
 	try {
 		const template = await JSDOM.fromFile(join(source, 'template.html'));
 		const subDirs = getSubDirectories(source);
-		subDirs.forEach(dir => main(join(source, dir)));
+		await Promise.all(subDirs.map(dir => main(join(source, dir))));
 
 		const { document } = template.window;
 		document.head.innerHTML += commonMetas;
@@ -81,7 +81,6 @@ const main = async source => {
 		document.body.innerHTML += commonFiles.js.map(name => getScriptHTML(join(commonFolder, name))).join('');
 
 		const ul = document.getElementById('articles');
-
 		if (ul) {
 			(await Promise.all(subDirs.map(folder => getLi(source, folder))))
 				.forEach(li => ul.appendChild(li));

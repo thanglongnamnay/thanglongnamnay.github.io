@@ -2,5 +2,5 @@
 node_modules
 Artgroup/server
 *.bat
-*.lock
+*.min.js
 index.html
