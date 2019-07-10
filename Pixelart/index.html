@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="en"><head> <meta charset="UTF-8"> <meta name="description" content="Chuyển hình ảnh thành tranh pixel."> <title>Pixel art makerr</title> <style> body {
+            margin: 0;
+        }
+        #image-holder {
+            display: grid;
+            grid-gap: 0;
+            justify-content: stretch;
+        } </style> <meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/png" href="/commons/icon.png"><link rel="stylesheet" href="/commons/style.css"></head> <body> <div id="container"> <form name="uploadForm"> <p><input id="uploadInput" type="file" name="myFiles"> selected files: <span id="fileNum">0</span>; total size: <span id="fileSize">0</span></p> <label for="chunkSize">Pixel's size (don't make it too small, 5 is a good start)</label> <input type="number" id="chunkSize" name="chunkSize" value="5"> <button type="button" id="createPixelArtButton">Make it</button> </form> <div id="image-holder"></div> <canvas id="canvas"></canvas> </div> <script src="main.js"></script> <script src="/commons/breadcrumb.js"></script></body></html>

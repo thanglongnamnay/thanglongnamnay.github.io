@@ -3,4 +3,3 @@ node_modules
 Artgroup/server
 *.bat
 *.min.js
-index.html
