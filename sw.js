@@ -4,8 +4,8 @@ const CACHE = "tlnn-v1";
 const precacheFiles = [
   `/`,
   `/index.html`,
-  `style.css`,
-  `/icon.png`
+  `/commons/style.css`,
+  `/commons/icon.png`
 ];
 
 self.addEventListener("install", function (event) {

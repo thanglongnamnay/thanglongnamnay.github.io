@@ -95,10 +95,6 @@ button:disabled {
 section, article {
   display: block;
 }
-img {
-	background-image: url('/commons/No_picture_available.png');
-	background-size: cover;
-}
 #breadcrumb {
 	position: absolute;
 	top: 10px;
