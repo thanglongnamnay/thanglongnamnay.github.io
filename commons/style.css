@@ -7,9 +7,9 @@
 	--color-light: #fafafa; /* yes im fa */
 	--color-mid: #aaa;
 	--color-link: #1565C0;
+	/*22577A • 38A3A5 • 57CC99 • 80ED99 • C7F9CC*/
 }
 * {
-	transition: .1s linear;
 	text-align: justify;
 	box-sizing: border-box;
 }
@@ -75,6 +75,7 @@ input:hover, input:active {
 	box-shadow: 0 0 2px inset var(--color-mid);
 }
 button {
+	transition: .1s linear;
 	background-color: var(--color-primary);
 	font-family: inherit;
 	font-weight: 600;
@@ -145,6 +146,20 @@ section, article {
     border-radius: 2.5px;
     background: var(--color-lightish);
     box-shadow: inset 0 0 10px rgba(0,0,0,.5); 
+}
+iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: none;
+}
+.slide {
+	animation: slide 1s 1;
+	clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+}
+@keyframes slide {
+	0% { clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%); }
+	100% { clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%); }
 }
 
 @media screen and (prefers-color-scheme: dark) {

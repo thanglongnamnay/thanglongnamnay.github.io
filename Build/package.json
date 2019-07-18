@@ -9,6 +9,7 @@
     "jsdom": "^15.1.1"
   },
   "dependencies": {
-    "html-minifier": "^4.0.0"
+    "html-minifier": "^4.0.0",
+    "terser": "^4.1.2"
   }
 }
