@@ -1,18 +1,28 @@
 const fs = require('fs').promises;
 const { watch } = require('fs');
+const { F_OK } = require('fs').constants;
 const { minify} = require('html-minifier');
 const jsMinify = require('terser').minify;
-const { join, basename, dirname, relative, sep } = require('path');
+const { join, basename, dirname, extname, relative, sep } = require('path');
 const { JSDOM } = require("jsdom");
+const live = require('./live');
 
-const { F_OK } = require('fs').constants;
 // const ROOT = join(__dirname, 'page-src');
 
 const DES = join('d:/', 'thanglongnamnay.github.io');
 const ROOT = DES;
 
+const regex = {
+	notFolder: /\./,
+	html: /html$/,
+	js: /js$/,
+	css: /css$/,
+	json: /json$/,
+	unminifiedJs: /(?<!min)\.js/,
+	minifiedJs: /(?<=min)\.js/,
+}
+
 const ignoredFolders = [
-	/\./,
 	/Build/,
 	/commons/,
 	/CNAME/,
@@ -50,28 +60,6 @@ const getInfo = file => ({
 	description: getDescription(file)
 });
 
-const getLi = async (source, folder) => {
-	const indexFile = join(source, folder, 'template.html');
-	try {
-		await fs.access(indexFile, F_OK);
-		const dom = await JSDOM.fromFile(indexFile);
-		const info = getInfo(dom);
-		const { document } = dom.window;
-		const li = document.createElement('li');
-		li.textContent = ' - ' + info.description;
-
-		const a = document.createElement('a');
-		a.textContent = info.title;
-		a.href = folder;
-
-		li.insertBefore(a, li.firstChild);
-		return li;
-	} catch(e) {
-		console.error(e);
-		return undefined;
-	}
-};
-
 const relativePosix = (src, des) => relative(src, des).split(sep).join('/');
 
 const getStyleHTML = source => `<link rel="stylesheet" href="/${relativePosix(ROOT, source)}">`;
@@ -95,16 +83,32 @@ const safeWriteFile = async (source, data) => {
 }
 
 const main = async (root, des) => {
-	const tree = await buildHtml(root, des, '.');
-	console.dir(tree, {
-		depth: 5,
-		colors: true,
-	});
+	// minifyJs(root, des, '.');
+	// const tree = await buildHtml(root, des, '.');
+	// console.dir(tree, {
+	// 	depth: 5,
+	// 	colors: true,
+	// });
+
+	live(process.stdout, process.stderr);
+
 	console.log('WATCHING...');
-	watch(root, { recursive: true }, (type, filename) => {
-		if (type === 'change' && basename(filename) === 'template.html') {
-			console.log(type, dirname(join(root, filename)));
-			const dir = dirname(join(root, filename));
+	watch(root, { recursive: true }, throttle((type, filename) => {
+		const source = join(root, filename);
+		console.log(type, source);
+		if (type !== 'change') return;
+		if (ignoredFolders.some(name => name.test(dirname(source)))) return;
+
+		if (regex.unminifiedJs.test(filename)) {
+			fs.readFile(source, 'utf8')
+				.then(data => {
+					const minified = jsMinify(data.replace(RegExp(regex.unminifiedJs, 'g'), '.min.js'));
+					if (minified.error) return console.error('MINIFY:', source, minified.error);
+					safeWriteFile(source.replace(regex.unminifiedJs, '.min.js'), minified.code) ;
+				}).catch(handleError);
+		} else if (basename(filename) === 'template.html') {
+			const dir = dirname(join(des, filename));
+
 			JSDOM.fromFile(join(root, filename)).then(template => {
 				const { document } = template.window;
 				document.head.innerHTML += commonMetas;
@@ -113,11 +117,16 @@ const main = async (root, des) => {
 
 				safeWriteFile(
 					join(dir, 'index.html'), 
-					minify(template.serialize(), minifyOptions), 
+					minify(
+						template
+							.serialize()
+							.replace(RegExp(regex.unminifiedJs, 'g'), '.min.js'),
+						minifyOptions,
+					),
 				);
 			}).catch(handleError);
 		}
-	});
+	}, 30));
 }
 
 const buildHtml = async (root, des, path) => {
@@ -151,7 +160,12 @@ const buildHtml = async (root, des, path) => {
 
 		await safeWriteFile(
 			join(des, path, 'index.html'), 
-			minify(template.serialize(), minifyOptions), 
+			minify(
+				template
+					.serialize()
+					.replace(RegExp(regex.unminifiedJs, 'g'), '.min.js'),
+				minifyOptions,
+			),
 		);
 
 		return {
@@ -166,22 +180,12 @@ const buildHtml = async (root, des, path) => {
 
 const readFile = async source => {
 	try {
-		const data = await fs.readFile(source);
+		const data = await fs.readFile(source, 'utf8');
 		console.log('READ:', source);
 		return { source, data };
 	} catch (e) {
 		console.log('READ:', source, e.message);
 	}
-}
-
-const regex = {
-	notFolder: /\./,
-	html: /html$/,
-	js: /js$/,
-	css: /css$/,
-	json: /json$/,
-	unminifiedJs: /(?<!min)\.js$/,
-	minifiedJs: /(?<=min)\.js$/,
 }
 
 const delFile = source => {
@@ -204,20 +208,53 @@ const clean = async root => {
 	delFile(join(root, 'index.html'));
 }
 
-const minifyJs = async root => {
-	const names = await fs.readdir(root);
-	const jsNames = names.filter(name => unminifiedRegex.test(name));
+const minifyJs = async (root, des, path) => {
+	try {
+	const dir = join(root, path)
+	const subDirs = await getSubDirectories(dir);
+	console.log('DIRS:', dir, subDirs);
+	subDirs.forEach(subDir => minifyJs(root, des, join(path, subDir)));
+
+	const names = await fs.readdir(dir);
+	const jsNames = names.filter(name => regex.unminifiedJs.test(name));
 
 	console.log('NAMES:', jsNames);
-	const files = await Promise.all(jsNames.map(name => readFile(join(root, name))));
+
+	// jsNames.forEach(name => {
+	// 	const input = join(root, path, name);
+	// 	const output = join(des, path, name).replace(regex.unminifiedJs, '.min.js');
+	//(`terser ${input} -o ${output}`)
+	// 	// .on('close', code => {
+	// 	// 	console.log(code, 'Minify: ' + imput + ' -> ' + output);
+	// 	// });
+	// });
+
+	// return;
+
+	const files = await Promise.all(jsNames.map(name => readFile(join(dir, name))));
+
 	files.forEach(({ source, data } = {}) => {
 		if (source && data) {
-			console.log('WRITE:', source.replace(unminifiedRegex, '.min.js'));
-			const minified = jsMinify(data);
+			const name = basename(source);
+			const outputName = join(des, path, name).replace(regex.unminifiedJs, '.min.js');
+			console.log('WRITE:', outputName);
+			const minified = jsMinify(data.replace(RegExp(regex.unminifiedJs, 'g'), '.min.js'));
 			if (minified.error) return console.error('MINIFY:', source, minified.error);
-			fs.writeFile(source.replace(unminifiedRegex, '.min.js'), minified.data) ;
+			// console.log('MINIFY:', source, minified.code);
+			safeWriteFile(source.replace(regex.unminifiedJs, '.min.js'), minified.code) ;
 		}
 	});
+	} catch (e) {console.error(e)}
 }
 
 main(ROOT, DES);
+
+function throttle(fn, delay) {
+    let start = Date.now() - delay;
+    return function (...args) {
+        if (Date.now() - start >= delay) {
+            fn.apply(this, args);
+            start = Date.now();
+        }
+    }
+}

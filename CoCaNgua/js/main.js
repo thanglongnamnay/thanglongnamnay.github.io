@@ -321,7 +321,7 @@ function rollDice() {
     let r = randomDiceRoll();
     let sound = diceSound();
     if (!fastMode) {
-        sound.play();
+        sound.play().catch(() => {});
         sound.onloadedmetadata = () => setTimeout(pushDice, sound.duration * 1000);	
     } else {
         pushDice();
