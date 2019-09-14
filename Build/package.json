@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "html-minifier": "^4.0.0",
+    "sitemap-static": "^0.4.4",
     "terser": "^4.1.2"
   }
 }

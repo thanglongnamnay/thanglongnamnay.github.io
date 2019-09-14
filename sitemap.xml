@@ -9,42 +9,82 @@
 
 <url>
   <loc>https://thanglongnamnay.me/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
+  <loc>https://thanglongnamnay.me/Artgroup/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanglongnamnay.me/CoCaNgua/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanglongnamnay.me/FastReaction/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanglongnamnay.me/FogOfWar/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanglongnamnay.me/InfiniteScroll/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>https://thanglongnamnay.me/LCGTest/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://thanglongnamnay.me/Pixelart/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://thanglongnamnay.me/Shellgame/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://thanglongnamnay.me/Artgroup/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://thanglongnamnay.me/Utility/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
+  <loc>https://thanglongnamnay.me/InfiniteScroll/v1/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thanglongnamnay.me/InfiniteScroll/v2/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
   <loc>https://thanglongnamnay.me/Utility/LinearEquations/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://thanglongnamnay.me/Utility/PrimeCheck/</loc>
-  <lastmod>2019-06-01T01:06:52+00:00</lastmod>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thanglongnamnay.me/Utility/SpellChecker/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thanglongnamnay.me/Utility/VietnamAddresses/</loc>
+  <lastmod>2019-07-19T00:49:46+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 

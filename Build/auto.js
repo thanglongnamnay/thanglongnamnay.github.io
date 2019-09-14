@@ -18,11 +18,12 @@ const regex = {
 	js: /js$/,
 	css: /css$/,
 	json: /json$/,
-	unminifiedJs: /(?<!min)\.js/,
+	unminifiedJs: /(?<!min)\.js(?!on)/,
 	minifiedJs: /(?<=min)\.js/,
 }
 
 const ignoredFolders = [
+	/\.git/,
 	/Build/,
 	/commons/,
 	/CNAME/,
@@ -38,6 +39,10 @@ const commonMetas = `<meta name="viewport" content="width=device-width, initial-
 const handleError = (cb = console.error) => err => {
 	if (err) cb(err);
 }
+const filter = callback => async arr => {
+  const fail = Symbol()
+  return (await Promise.all(arr.map(async item => (await callback(item)) ? item : fail))).filter(i=>i!==fail)
+}
 const unary = fn => arg => fn(arg);
 const isNotIgnored = ignoredFolders => name => !ignoredFolders.some(reg => reg.test(name));
 const isDirectory = source => fs.stat(source).then(stat => stat.isDirectory()).catch(handleError);
@@ -45,7 +50,7 @@ const toFullSource = source => name => join(source, name);
 const getSubDirectories = source => 
 	fs.readdir(source)
 		.then(names => names.map(toFullSource(source)))
-		.then(names => names.filter(isDirectory))
+		.then(filter(isDirectory))
 		.then(names => names.map(unary(basename)))
 		.then(names => names.filter(isNotIgnored(ignoredFolders)));
 
@@ -74,21 +79,22 @@ const minifyOptions = {
 }
 
 const safeWriteFile = async (source, data) => {
+	console.log('WRITE:', source);
 	try {
 		await fs.mkdir(dirname(source));
 	} catch(e) {
-		console.error(e);
+		;
 	}
 	return await fs.writeFile(source, data);
 }
 
 const main = async (root, des) => {
-	// minifyJs(root, des, '.');
-	// const tree = await buildHtml(root, des, '.');
-	// console.dir(tree, {
-	// 	depth: 5,
-	// 	colors: true,
-	// });
+	//minifyJs(root, des, '.');
+	const tree = await buildHtml(root, des, '.');
+	console.dir(tree, {
+		depth: 5,
+		colors: true,
+	});
 
 	live(process.stdout, process.stderr);
 
@@ -133,6 +139,7 @@ const buildHtml = async (root, des, path) => {
 	const source = join(root, path);
 	// clean(source);
 	const subDirs = await getSubDirectories(source);
+	console.log('SUBDIRs:', subDirs);
 	const subEls = await Promise.all(subDirs.map(dir => buildHtml(root, des, join(path, dir))));
 	try {
 		const template = await JSDOM.fromFile(join(source, 'template.html'));
@@ -157,13 +164,14 @@ const buildHtml = async (root, des, path) => {
 				ul.appendChild(li);
 			});
 		}
+				console.log('BUILD-HTML:', source);
 
 		await safeWriteFile(
 			join(des, path, 'index.html'), 
 			minify(
 				template
 					.serialize()
-					.replace(RegExp(regex.unminifiedJs, 'g'), '.min.js'),
+					/*.replace(RegExp(regex.unminifiedJs, 'g'), '.min.js')*/,
 				minifyOptions,
 			),
 		);
@@ -174,7 +182,7 @@ const buildHtml = async (root, des, path) => {
 			sub: subEls,
 		}
 	} catch(e) {
-		console.error(e);
+		;
 	}
 }
 
@@ -237,14 +245,14 @@ const minifyJs = async (root, des, path) => {
 		if (source && data) {
 			const name = basename(source);
 			const outputName = join(des, path, name).replace(regex.unminifiedJs, '.min.js');
-			console.log('WRITE:', outputName);
+			
 			const minified = jsMinify(data.replace(RegExp(regex.unminifiedJs, 'g'), '.min.js'));
 			if (minified.error) return console.error('MINIFY:', source, minified.error);
 			// console.log('MINIFY:', source, minified.code);
 			safeWriteFile(source.replace(regex.unminifiedJs, '.min.js'), minified.code) ;
 		}
 	});
-	} catch (e) {console.error(e)}
+	} catch (e) {}
 }
 
 main(ROOT, DES);
