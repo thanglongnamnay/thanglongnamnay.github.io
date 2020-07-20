@@ -70,6 +70,9 @@ input {
 	border-radius: 4px;
 	padding: 0.5rem .25rem;
 }
+textarea {
+	background-color: var(--color-lightish);
+}
 input:hover, input:active {
 	border-color: var(--color-darkish);
 	box-shadow: 0 0 2px inset var(--color-mid);
