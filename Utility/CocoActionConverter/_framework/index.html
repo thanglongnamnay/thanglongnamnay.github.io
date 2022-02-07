@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Coco Action Converter</title>
+  <meta name="description" content="Convert Javascript action to C++ action.">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css" rel="stylesheet">
+  <link href="css/index.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="/commons/icon.png">
+  <link rel="stylesheet" href="/commons/style.css">
+</head>
+
+<body class="has-text-white has-background-dark">
+  <div id="main" class="box has-text-white has-background-dark">Loading...</div> <noscript>App cannot work without
+    Javascript.</noscript>
+  <script src="_framework/blazor.webassembly.js"></script>
+  <script>function fallbackCopyTextToClipboard(o) { var e = document.createElement("textarea"); e.value = o, e.style.top = "0", e.style.left = "0", e.style.position = "fixed", document.body.appendChild(e), e.focus(), e.select(); try { var c = document.execCommand("copy") ? "successful" : "unsuccessful"; console.log("Fallback: Copying text command was " + c) } catch (o) { console.error("Fallback: Oops, unable to copy", o) } document.body.removeChild(e) } function copyTextToClipboard(o) { navigator.clipboard ? navigator.clipboard.writeText(o).then(function () { console.log("Async: Copying to clipboard was successful!") }, function (o) { console.error("Async: Could not copy text: ", o) }) : fallbackCopyTextToClipboard(o) } window.copyDest = o => { console.log("copyDest", o), copyTextToClipboard(o), console.log("done copyDest") }</script>
+  <script src="/commons/breadcrumb.js"></script>
+</body>
+
+</html>
