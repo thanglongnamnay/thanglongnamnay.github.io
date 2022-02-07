@@ -2,3 +2,4 @@
 node_modules
 Artgroup/server
 *.bat
+.DS_Store
