@@ -33,7 +33,7 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-lRvPPiHoSLQ7XbpcDxEV3Hvnq8+ddROmkfl4Kuz9iCM=",
+      "hash": "sha256-SeausA\/TZAvfPIzPYzGbcu1EA9MjyNCKhg\/7RpTAWXE=",
       "url": "_framework\/blazor.boot.json"
     },
     {
@@ -45,7 +45,7 @@
       "url": "_framework\/Bolero.Html.dll"
     },
     {
-      "hash": "sha256-+rW2QKCTTxPg+5OB2eNW7vSw9uCnmAZIDlZ\/Mg\/yYYE=",
+      "hash": "sha256-flFoCgvw5TwXappS1z61x7w4hm5IU5Jq5O8MhfwZX1U=",
       "url": "_framework\/CocoActionConverter.Parser.dll"
     },
     {
@@ -397,5 +397,5 @@
       "url": "template.html"
     }
   ],
-  "version": "HRmKYcs3"
+  "version": "GxiPhzMD"
 };
